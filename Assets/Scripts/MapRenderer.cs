@@ -8,7 +8,7 @@ public class MapRenderer : MonoBehaviour
   [SerializeField]
   private Tilemap tilemap;
   [SerializeField]
-  private Tile[] tiles;
+  public Tile[] tiles;
 
   public Tilemap Tilemap
   {
@@ -39,7 +39,7 @@ public class MapRenderer : MonoBehaviour
 
     // render root desk
     Vector3Int computerLocation = cursor.tilemapPosition;
-    if (cursor.renderVariant == 1) {
+    if (cursor.type == Map.Node.NodeType.DeskLeft) {
       computerLocation = new Vector3Int(computerLocation.x + 3, computerLocation.y, 0);
     }
     Vector3Int computer2Location = new Vector3Int(computerLocation.x - 3, computerLocation.y, 0);
@@ -66,7 +66,7 @@ public class MapRenderer : MonoBehaviour
       }
 
       computerLocation = cursor.tilemapPosition;
-      if (cursor.renderVariant == 1) {
+      if (cursor.type == Map.Node.NodeType.DeskLeft) {
         computerLocation = new Vector3Int(computerLocation.x + 1, computerLocation.y, 0);
       }
       computer2Location = new Vector3Int(computerLocation.x - 1, computerLocation.y, 0);

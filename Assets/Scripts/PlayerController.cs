@@ -8,7 +8,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
   [SerializeField]
-  private float speed = 6f;
+  private float speed = 12f;
   private float directionIndicatorDetectionAngle = 30f;
 
   [SerializeField]
@@ -36,14 +36,14 @@ public class PlayerController : MonoBehaviour
     }
   }
 
-  // Generate world
   // Draw generated world
-  // Navigation based on the generated world
+  // camera movement up and down
   // fog of war
   // Interact to scan the network
   // interact to do something hacking
   // highlight the direction of the data if not at the current place (when stealing data)
   // mission generation
+  // generate interesting paths for the player to take from point to point
 
   // click on 1 and have to go to another place before the timer runs out (can say send 3 different packets, gotta catch one)
   // loggers - install and have to do something in the meantime while it gathers data
@@ -66,20 +66,21 @@ public class PlayerController : MonoBehaviour
 
   // camera always fit https://answers.unity.com/questions/760671/resizing-orthographic-camera-to-fit-2d-sprite-on-s.html
 
-  private void Awake() {
+  // NICE TO HAVES
+  // generate smart lights whether the player can go to
+  // generate background wires and office equipment and stuff (just visuals, separate tilemap?)
+
+  private void OnEnable() {
     mapRenderer = FindObjectOfType<MapRenderer>();
     lineRenderers = GetComponentsInChildren(typeof(LineRenderer))
       .Select(c => (LineRenderer)c)
       .ToList();
-  }
 
-  void Start() {
     RegenerateMap();
-
     transform.position = map.CurrentNode.position;
-
     UpdateNavigationLines();
   }
+
 
   private void RegenerateMap() {
     MapGenerator generator = new MapGenerator(mapRenderer.Tilemap);
@@ -91,6 +92,10 @@ public class PlayerController : MonoBehaviour
     Navigation();
     if (Input.GetKeyDown(KeyCode.E)) {
       RegenerateMap();
+
+      transform.position = map.CurrentNode.position;
+
+      UpdateNavigationLines();
     }
   }
 
@@ -102,7 +107,7 @@ public class PlayerController : MonoBehaviour
     Map.Node minTarget = null;
     float minAngle = 360;
     int minIndex = -1;
-    for (int i = 0; i < map.CurrentNode.links.Length; i++) {
+    for (int i = 0; i < map.CurrentNode.links.Count; i++) {
       Map.Node target = map.CurrentNode.links[i];
       Vector3 direction = target.position - directionIndicator.transform.position;
       float angle = Vector3.Angle(directionIndicator.transform.localPosition, direction);
@@ -138,7 +143,8 @@ public class PlayerController : MonoBehaviour
       }
     } else {
       int activeRenderers = lineRenderers.Count;
-      int requiredRenderers = map.CurrentNode.links.Length;
+      int requiredRenderers = map.CurrentNode.links.Count;
+      Debug.Log(requiredRenderers);
       if (activeRenderers > requiredRenderers) {
         for (int i = requiredRenderers; i < activeRenderers; i++) {
           Destroy(lineRenderers[i].gameObject);

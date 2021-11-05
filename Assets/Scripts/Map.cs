@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class Map
 {
@@ -33,9 +34,26 @@ public class Map
 
   public class Node
   {
-    public Node[] links;
+    public enum NodeType
+    {
+      DeskRight,
+      DeskLeft,
+      CEODesk,
+      Door,
+      Light,
+      Server,
+    }
+
+    public Node(NodeType type, Vector3Int tilemapPosition, Tilemap tilemap) {
+      this.type = type;
+      this.tilemapPosition = tilemapPosition;
+      this.position = tilemap.CellToWorld(tilemapPosition);
+      this.links = new List<Node>();
+    }
+
+    public List<Node> links;
     public Vector3Int tilemapPosition;
     public Vector3 position;
-    public int renderVariant;
+    public NodeType type;
   }
 }
