@@ -50,3 +50,6 @@ TagManager:
   - name: Foreground
     uniqueID: 1938806281
     locked: 0
+  - name: FogOfWar
+    uniqueID: 3971095677
+    locked: 0

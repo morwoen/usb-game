@@ -12,10 +12,22 @@ public class MapGenerator
   private int seed;
   private Tilemap tilemap;
 
-  private int levels = 5;
-  private int buildingWidth = 34;
+  public static int levels {
+    get;
+    private set;
+  } = 5;
+
+  public static int buildingWidth {
+    get;
+    private set;
+  } = 34;
+
+  public static int ceilingHeight {
+    get;
+    private set;
+  } = 6;
+
   private int buildingHalfWidth;
-  private int ceilingHeight = 6;
   private int receptionDeskOffset = 4;
   private int ceoOfficeWidth = 21;
   private int minRoomSize = 5;

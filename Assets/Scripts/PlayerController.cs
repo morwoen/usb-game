@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour
   private bool isMoving = false;
   private List<LineRenderer> lineRenderers;
   private MapRenderer mapRenderer;
+  private FogOfWar fow;
   private Map map;
 
   public bool IsMoving {
@@ -38,6 +39,7 @@ public class PlayerController : MonoBehaviour
 
   private void OnEnable() {
     mapRenderer = FindObjectOfType<MapRenderer>();
+    fow = FindObjectOfType<FogOfWar>();
     lineRenderers = GetComponentsInChildren(typeof(LineRenderer))
       .Select(c => (LineRenderer)c)
       .ToList();
@@ -51,6 +53,7 @@ public class PlayerController : MonoBehaviour
     MapGenerator generator = new MapGenerator(mapRenderer.Tilemap);
     map = generator.Generate();
     mapRenderer.Render(map);
+    fow.ResetFog();
   }
 
   private void Update() {
@@ -60,6 +63,8 @@ public class PlayerController : MonoBehaviour
       transform.position = map.CurrentNode.position;
       UpdateNavigationLines();
     }
+
+    fow.UpdateLocation(transform.position);
   }
 
   private void Navigation() {
@@ -127,6 +132,8 @@ public class PlayerController : MonoBehaviour
 
         lineRenderers[i].gameObject.SetActive(true);
         lineRenderers[i].SetPositions(directions);
+
+        fow.See(map.CurrentNode.links[i]);
       }
     }
   }
