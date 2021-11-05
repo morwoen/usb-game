@@ -36,40 +36,6 @@ public class PlayerController : MonoBehaviour
     }
   }
 
-  // Draw generated world
-  // camera movement up and down
-  // fog of war
-  // Interact to scan the network
-  // interact to do something hacking
-  // highlight the direction of the data if not at the current place (when stealing data)
-  // mission generation
-  // generate interesting paths for the player to take from point to point
-
-  // click on 1 and have to go to another place before the timer runs out (can say send 3 different packets, gotta catch one)
-  // loggers - install and have to do something in the meantime while it gathers data
-  // finding random upgrades on machines
-  // leave a spiderweb to catch something
-
-  // minigame - balance cpu to not be detected when on the CEO computer
-
-  // people AI
-  // antivirus scans
-
-  // music
-  // sfx
-
-  // menu
-  // Settings
-  // credits
-
-  // intro (the USBus or just the person taking you in)
-
-  // camera always fit https://answers.unity.com/questions/760671/resizing-orthographic-camera-to-fit-2d-sprite-on-s.html
-
-  // NICE TO HAVES
-  // generate smart lights whether the player can go to
-  // generate background wires and office equipment and stuff (just visuals, separate tilemap?)
-
   private void OnEnable() {
     mapRenderer = FindObjectOfType<MapRenderer>();
     lineRenderers = GetComponentsInChildren(typeof(LineRenderer))
@@ -81,7 +47,6 @@ public class PlayerController : MonoBehaviour
     UpdateNavigationLines();
   }
 
-
   private void RegenerateMap() {
     MapGenerator generator = new MapGenerator(mapRenderer.Tilemap);
     map = generator.Generate();
@@ -92,9 +57,7 @@ public class PlayerController : MonoBehaviour
     Navigation();
     if (Input.GetKeyDown(KeyCode.E)) {
       RegenerateMap();
-
       transform.position = map.CurrentNode.position;
-
       UpdateNavigationLines();
     }
   }
@@ -144,7 +107,6 @@ public class PlayerController : MonoBehaviour
     } else {
       int activeRenderers = lineRenderers.Count;
       int requiredRenderers = map.CurrentNode.links.Count;
-      Debug.Log(requiredRenderers);
       if (activeRenderers > requiredRenderers) {
         for (int i = requiredRenderers; i < activeRenderers; i++) {
           Destroy(lineRenderers[i].gameObject);

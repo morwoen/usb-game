@@ -16,16 +16,23 @@ public class Map
     private set;
   }
 
+  public List<Vector3Int> debug
+  {
+    get;
+    private set;
+  }
+
   public Node CurrentNode
   {
     get { return currentNode; }
     private set { currentNode = value; }
   }
 
-  public Map(Node root, List<Vector3Int> walls, List<Vector3Int> ceilings) {
+  public Map(Node root, List<Vector3Int> walls, List<Vector3Int> ceilings, List<Vector3Int> debug) {
     this.currentNode = root;
     this.walls = walls;
     this.ceilings = ceilings;
+    this.debug = debug;
   }
 
   public void FollowLink(Node node) {
@@ -40,8 +47,32 @@ public class Map
       DeskLeft,
       CEODesk,
       Door,
-      Light,
+      Light, // Not generated or rebdered ATM
       Server,
+    }
+
+    public List<Node> links
+    {
+      get;
+      private set;
+    }
+
+    public Vector3Int tilemapPosition
+    {
+      get;
+      private set;
+    }
+
+    public Vector3 position
+    {
+      get;
+      private set;
+    }
+
+    public NodeType type
+    {
+      get;
+      private set;
     }
 
     public Node(NodeType type, Vector3Int tilemapPosition, Tilemap tilemap) {
@@ -50,10 +81,5 @@ public class Map
       this.position = tilemap.CellToWorld(tilemapPosition);
       this.links = new List<Node>();
     }
-
-    public List<Node> links;
-    public Vector3Int tilemapPosition;
-    public Vector3 position;
-    public NodeType type;
   }
 }

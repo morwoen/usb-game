@@ -7,6 +7,8 @@ using Random = UnityEngine.Random;
 
 public class MapGenerator
 {
+  private static bool debugging = false;
+
   private int seed;
   private Tilemap tilemap;
 
@@ -39,6 +41,7 @@ public class MapGenerator
 
     List<Vector3Int> walls = new List<Vector3Int>();
     List<Vector3Int> ceiling = new List<Vector3Int>();
+    List<Vector3Int> debug = new List<Vector3Int>();
     for (int level = 0; level < levels; level++) {
       int yOffset = level * (ceilingHeight + 1);
 
@@ -113,6 +116,15 @@ public class MapGenerator
         serverLinkNode.links.Add(server);
         server.links.Add(serverLinkNode);
 
+        if (debugging) {
+          debug.Add(door.tilemapPosition);
+          debug.Add(ceoComputer.tilemapPosition);
+          debug.Add(server.tilemapPosition);
+          Debug.DrawLine(ceoComputer.position, computerLinkNode.position, Color.red, 60);
+          Debug.DrawLine(server.position, serverLinkNode.position, Color.red, 60);
+          Debug.DrawLine(door.position, ceoComputer.position, Color.red, 60);
+        }
+
         // No need to update the previousLevel list as this is the last level
       } else {
         int spaceAvailable = buildingWidth - 2;
@@ -149,22 +161,36 @@ public class MapGenerator
               new Vector3Int(nodeGlobalOffset, yOffset + 1, 0),
               tilemap
             );
-            nodes.Add(node);
+
+            if (debugging) {
+              debug.Add(node.tilemapPosition);
+              Debug.Log($"{nodeGlobalOffset} {yOffset + 1}");
+            }
 
             // link the door next to it if present
             if (nodeIndex == 0 && door != null) {
               node.links.Add(door);
               door.links.Add(node);
+              
+              if (debugging) {
+                Debug.DrawLine(door.position, node.position, Color.red, 60);
+              }
             } else if (nodeIndex > 0) {
               Map.Node previousNode = nodes[nodes.Count - 1];
               previousNode.links.Add(node);
               node.links.Add(previousNode);
+
+              if (debugging) {
+                Debug.DrawLine(previousNode.position, node.position, Color.red, 60);
+              }
             }
+
+            nodes.Add(node);
 
             nodeOffset += nodeSize + computerSpaceAround * 2;
           }
 
-          if (remainingRooms > 0) {
+          if (remainingRooms > 0 && nodes.Count > 0) {
             // create and link door
             door = new Map.Node(
               Map.Node.NodeType.Door,
@@ -172,9 +198,15 @@ public class MapGenerator
               tilemap
             );
 
+
             var finalNodeInLastRoom = nodes[nodes.Count - 1];
             door.links.Add(finalNodeInLastRoom);
             finalNodeInLastRoom.links.Add(door);
+            
+            if (debugging) {
+              debug.Add(door.tilemapPosition);
+              Debug.DrawLine(door.position, finalNodeInLastRoom.position, Color.red, 60);
+            }
           }
 
           xOffset += roomSize + 1;
@@ -205,6 +237,10 @@ public class MapGenerator
           if (found) {
             sourceNode.links.Add(targetNode);
             targetNode.links.Add(sourceNode);
+
+            if (debugging) {
+              Debug.DrawLine(sourceNode.position, targetNode.position, Color.red, 60);
+            }
           }
         }
 
@@ -212,13 +248,17 @@ public class MapGenerator
         if (links.Count == 0) {
           nodes[0].links.Add(previousLevel[0]);
           previousLevel[0].links.Add(nodes[0]);
+
+          if (debugging) {
+            Debug.DrawLine(nodes[0].position, previousLevel[0].position, Color.red, 60);
+          }
         }
 
         previousLevel = nodes;
       }
     }
 
-    Map map = new Map(root, walls, ceiling);
+    Map map = new Map(root, walls, ceiling, debug);
 
     return map;
   }
