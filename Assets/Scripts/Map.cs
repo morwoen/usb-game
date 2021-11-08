@@ -75,11 +75,14 @@ public class Map
       private set;
     }
 
+    public bool isKnown;
+
     public Node(NodeType type, Vector3Int tilemapPosition, Tilemap tilemap) {
       this.type = type;
       this.tilemapPosition = tilemapPosition;
       this.position = tilemap.CellToWorld(tilemapPosition);
       this.links = new List<Node>();
+      this.isKnown = false;
     }
   }
 }

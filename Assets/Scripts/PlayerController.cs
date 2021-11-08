@@ -59,9 +59,14 @@ public class PlayerController : MonoBehaviour
   private void Update() {
     Navigation();
     if (Input.GetKeyDown(KeyCode.E)) {
-      RegenerateMap();
-      transform.position = map.CurrentNode.position;
-      UpdateNavigationLines();
+      if (!Interaction.IsInteracting) {
+        Interaction.Interact(5, didComplete => {
+          if (didComplete) {
+            map.CurrentNode.links.ForEach(node => node.isKnown = true);
+            UpdateNavigationLines();
+          }
+        });
+      }
     }
 
     fow.UpdateLocation(transform.position);
@@ -75,8 +80,9 @@ public class PlayerController : MonoBehaviour
     Map.Node minTarget = null;
     float minAngle = 360;
     int minIndex = -1;
-    for (int i = 0; i < map.CurrentNode.links.Count; i++) {
-      Map.Node target = map.CurrentNode.links[i];
+    List<Map.Node> visibleNodes = map.CurrentNode.links.Where(node => node.isKnown).ToList();
+    for (int i = 0; i < visibleNodes.Count; i++) {
+      Map.Node target = visibleNodes[i];
       Vector3 direction = target.position - directionIndicator.transform.position;
       float angle = Vector3.Angle(directionIndicator.transform.localPosition, direction);
       if (angle < minAngle) {
@@ -94,6 +100,7 @@ public class PlayerController : MonoBehaviour
       lineRenderers[minIndex].widthCurve = directionLineWidthCurveSelected;
 
       if (Input.GetMouseButtonDown(0)) {
+        Interaction.Interrupt();
         // TODO: generate an interesting path
         Vector3[] path = new Vector3[] {
           minTarget.position
@@ -111,29 +118,30 @@ public class PlayerController : MonoBehaviour
       }
     } else {
       int activeRenderers = lineRenderers.Count;
-      int requiredRenderers = map.CurrentNode.links.Count;
-      if (activeRenderers > requiredRenderers) {
-        for (int i = requiredRenderers; i < activeRenderers; i++) {
+      List<Map.Node> requiredRenderers = map.CurrentNode.links.Where(node => node.isKnown).ToList();
+      int requiredRenderersCount = requiredRenderers.Count;
+      if (activeRenderers > requiredRenderersCount) {
+        for (int i = requiredRenderersCount; i < activeRenderers; i++) {
           Destroy(lineRenderers[i].gameObject);
         }
-        lineRenderers.RemoveRange(requiredRenderers, activeRenderers - requiredRenderers);
-      } else if (activeRenderers < requiredRenderers) {
-        for (int i = 0; i < requiredRenderers - activeRenderers; i++) {
+        lineRenderers.RemoveRange(requiredRenderersCount, activeRenderers - requiredRenderersCount);
+      } else if (activeRenderers < requiredRenderersCount) {
+        for (int i = 0; i < requiredRenderersCount - activeRenderers; i++) {
           GameObject lrGO = Instantiate(directionLinePrefab, transform);
           LineRenderer lr = lrGO.GetComponent<LineRenderer>();
           lineRenderers.Add(lr);
         }
       }
 
-      for (int i = 0; i < requiredRenderers; i++) {
+      for (int i = 0; i < requiredRenderersCount; i++) {
         Vector3[] directions = new Vector3[] {
-          transform.position, map.CurrentNode.links[i].position
+          transform.position, requiredRenderers[i].position
         };
 
         lineRenderers[i].gameObject.SetActive(true);
         lineRenderers[i].SetPositions(directions);
 
-        fow.See(map.CurrentNode.links[i]);
+        fow.See(requiredRenderers[i]);
       }
     }
   }

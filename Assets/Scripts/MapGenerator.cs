@@ -270,6 +270,7 @@ public class MapGenerator
       }
     }
 
+    root.isKnown = true;
     Map map = new Map(root, walls, ceiling, debug);
 
     return map;

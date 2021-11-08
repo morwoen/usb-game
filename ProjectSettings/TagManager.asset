@@ -53,3 +53,6 @@ TagManager:
   - name: FogOfWar
     uniqueID: 3971095677
     locked: 0
+  - name: UI
+    uniqueID: 1518587945
+    locked: 0
