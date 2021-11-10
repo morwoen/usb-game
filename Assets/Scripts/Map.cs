@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -30,13 +31,16 @@ public class Map
 
   public Map(Node root, List<Vector3Int> walls, List<Vector3Int> ceilings, List<Vector3Int> debug) {
     this.currentNode = root;
+    this.currentNode.playerIsOnNode = true;
     this.walls = walls;
     this.ceilings = ceilings;
     this.debug = debug;
   }
 
   public void FollowLink(Node node) {
+    this.currentNode.playerIsOnNode = false;
     this.currentNode = node;
+    this.currentNode.playerIsOnNode = true;
   }
 
   public class Node
@@ -46,9 +50,12 @@ public class Map
       DeskRight,
       DeskLeft,
       CEODesk,
-      Door,
-      Light, // Not generated or rebdered ATM
       Server,
+      Door,
+      Light,
+      WaterDispenser,
+      CoffeeMachine,
+      Roomba,
     }
 
     public List<Node> links
@@ -76,6 +83,14 @@ public class Map
     }
 
     public bool isKnown;
+    public bool playerIsOnNode;
+
+    public void SetPosition(Vector3 pos) {
+      if (type != NodeType.Roomba) {
+        throw new Exception("Only Roombas have the power to do this, you are not a Roomba");
+      }
+      position = pos;
+    }
 
     public Node(NodeType type, Vector3Int tilemapPosition, Tilemap tilemap) {
       this.type = type;
@@ -83,6 +98,15 @@ public class Map
       this.position = tilemap.CellToWorld(tilemapPosition);
       this.links = new List<Node>();
       this.isKnown = false;
+    }
+
+    public Node(NodeType type) {
+      if (type != NodeType.Roomba) {
+        throw new Exception("Use the other constructor for non-roomba nodes");
+      }
+      this.type = type;
+      this.isKnown = true;
+      this.links = new List<Node>();
     }
   }
 }

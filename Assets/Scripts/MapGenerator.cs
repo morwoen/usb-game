@@ -54,6 +54,12 @@ public class MapGenerator
     List<Vector3Int> walls = new List<Vector3Int>();
     List<Vector3Int> ceiling = new List<Vector3Int>();
     List<Vector3Int> debug = new List<Vector3Int>();
+
+    // bottom floor
+    for (int i = -buildingHalfWidth; i < buildingHalfWidth; i++) {
+      ceiling.Add(new Vector3Int(i, -1, 0));
+    }
+
     for (int level = 0; level < levels; level++) {
       int yOffset = level * (ceilingHeight + 1);
 
@@ -211,7 +217,7 @@ public class MapGenerator
             );
 
 
-            var finalNodeInLastRoom = nodes[nodes.Count - 1];
+            Map.Node finalNodeInLastRoom = nodes[nodes.Count - 1];
             door.links.Add(finalNodeInLastRoom);
             finalNodeInLastRoom.links.Add(door);
             

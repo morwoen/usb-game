@@ -33,7 +33,6 @@ public class PlayerController : MonoBehaviour
     private set {
       isMoving = value;
       directionIndicator.SetActive(!isMoving);
-      UpdateNavigationLines();
     }
   }
 
@@ -46,24 +45,24 @@ public class PlayerController : MonoBehaviour
 
     RegenerateMap();
     transform.position = map.CurrentNode.position;
-    UpdateNavigationLines();
   }
 
   private void RegenerateMap() {
-    MapGenerator generator = new MapGenerator(mapRenderer.Tilemap);
+    MapGenerator generator = new MapGenerator(mapRenderer.WallsTilemap);
     map = generator.Generate();
     mapRenderer.Render(map);
     fow.ResetFog();
   }
 
   private void Update() {
+    UpdateNavigationLines();
     Navigation();
+
     if (Input.GetKeyDown(KeyCode.E)) {
       if (!Interaction.IsInteracting) {
         Interaction.Interact(5, didComplete => {
           if (didComplete) {
             map.CurrentNode.links.ForEach(node => node.isKnown = true);
-            UpdateNavigationLines();
           }
         });
       }
