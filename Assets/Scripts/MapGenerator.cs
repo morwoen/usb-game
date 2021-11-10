@@ -33,6 +33,8 @@ public class MapGenerator
   private int minRoomSize = 5;
   private int computerSpaceAround = 2;
 
+  private int roombaChancePerFloor = 70;
+
   // prevent infinite/long loops due to randomness
   private int maxIterationsOnLinks = 10;
 
@@ -54,6 +56,7 @@ public class MapGenerator
     List<Vector3Int> walls = new List<Vector3Int>();
     List<Vector3Int> ceiling = new List<Vector3Int>();
     List<Vector3Int> debug = new List<Vector3Int>();
+    List<Vector3Int> roombas = new List<Vector3Int>();
 
     // bottom floor
     for (int i = -buildingHalfWidth; i < buildingHalfWidth; i++) {
@@ -72,6 +75,11 @@ public class MapGenerator
       // generate ceilings
       for (int ceilingIndex = -buildingHalfWidth + 1; ceilingIndex < buildingHalfWidth - 1; ceilingIndex++) {
         ceiling.Add(new Vector3Int(ceilingIndex, yOffset + ceilingHeight, 0));
+      }
+
+      // Should spawn a roomba
+      if (Random.Range(0, 101) < roombaChancePerFloor) {
+        roombas.Add(new Vector3Int(0, yOffset, 0));
       }
 
       // generate rooms
@@ -277,7 +285,7 @@ public class MapGenerator
     }
 
     root.isKnown = true;
-    Map map = new Map(root, walls, ceiling, debug);
+    Map map = new Map(root, walls, ceiling, roombas, debug);
 
     return map;
   }

@@ -17,6 +17,11 @@ public class Map
     private set;
   }
 
+  public List<Vector3Int> roombas {
+    get;
+    private set;
+  }
+
   public List<Vector3Int> debug
   {
     get;
@@ -29,11 +34,12 @@ public class Map
     private set { currentNode = value; }
   }
 
-  public Map(Node root, List<Vector3Int> walls, List<Vector3Int> ceilings, List<Vector3Int> debug) {
+  public Map(Node root, List<Vector3Int> walls, List<Vector3Int> ceilings, List<Vector3Int> roombas, List<Vector3Int> debug) {
     this.currentNode = root;
     this.currentNode.playerIsOnNode = true;
     this.walls = walls;
     this.ceilings = ceilings;
+    this.roombas = roombas;
     this.debug = debug;
   }
 
@@ -105,7 +111,7 @@ public class Map
         throw new Exception("Use the other constructor for non-roomba nodes");
       }
       this.type = type;
-      this.isKnown = true;
+      this.isKnown = false;
       this.links = new List<Node>();
     }
   }

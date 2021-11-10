@@ -1970,6 +1970,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7b13f651c9a042641a94ed408b919886, type: 2}
   nodeParent: {fileID: 676395778}
   computerPrefab: {fileID: 5145874360160300325, guid: f18fee1d0d961064fb63d47e298d2fba, type: 3}
+  roombaPrefab: {fileID: 3327469682044672366, guid: dc15df20f029ce442988f3bb66d7e9d7, type: 3}
+  doorPrefab: {fileID: 2112553744824722718, guid: b72199991b02058449be50204765729f, type: 3}
 --- !u!114 &1852559304393900209
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -60,7 +60,7 @@ public class PlayerController : MonoBehaviour
 
     if (Input.GetKeyDown(KeyCode.E)) {
       if (!Interaction.IsInteracting) {
-        Interaction.Interact(5, didComplete => {
+        Interaction.Interact(1, didComplete => {
           if (didComplete) {
             map.CurrentNode.links.ForEach(node => node.isKnown = true);
           }

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5145874360160300320}
   - component: {fileID: 5145874360160300327}
-  - component: {fileID: 5145874360160300326}
+  - component: {fileID: 1542660819897924803}
   - component: {fileID: 5145874360160300321}
   m_Layer: 0
   m_Name: ComputerNode
@@ -84,7 +84,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &5145874360160300326
+--- !u!61 &1542660819897924803
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -97,7 +97,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.12, y: 0.06}
+  m_Offset: {x: 0, y: 0.1}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -108,7 +108,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.2, y: 0.18}
+  m_Size: {x: 0.44, y: 0.15}
   m_EdgeRadius: 0
 --- !u!114 &5145874360160300321
 MonoBehaviour:

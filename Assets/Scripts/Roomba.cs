@@ -4,17 +4,28 @@ using UnityEngine;
 
 public class Roomba : MonoBehaviour
 {
+  [SerializeField]
+  private Canvas canvas;
+
   private Map.Node node;
   private PlayerController player;
+  private SpriteRenderer spriteRenderer;
 
   private bool movingRight = true;
 
   private float speed = 3;
   private float withPlayerSpeed = 10;
+  private bool playerHasMoved = false;
 
   private void Update() {
+    spriteRenderer.enabled = node.isKnown;
+
     node?.SetPosition(transform.position);
     if (node.playerIsOnNode) {
+      if (!playerHasMoved && !canvas.gameObject.activeSelf) {
+        canvas.gameObject.SetActive(true);
+      }
+
       if (!player.IsMoving) {
         player.transform.position = transform.position;
 
@@ -22,12 +33,24 @@ public class Roomba : MonoBehaviour
         // It is too funny how it bumps into walls
         // This is now a feature!
         if (Input.GetKey(KeyCode.A)) {
+          playerHasMoved = true;
           transform.Translate(Vector3.left * Time.deltaTime * withPlayerSpeed);
         } else if (Input.GetKey(KeyCode.D)) {
+          playerHasMoved = true;
           transform.Translate(Vector3.right * Time.deltaTime * withPlayerSpeed);
+        }
+
+        if (playerHasMoved && canvas.gameObject.activeSelf) {
+          canvas.gameObject.SetActive(false);
         }
       }
     } else {
+      if (canvas.gameObject.activeSelf) {
+        canvas.gameObject.SetActive(false);
+      }
+
+      playerHasMoved = false;
+
       if (movingRight) {
         transform.Translate(Vector3.right * Time.deltaTime * speed);
       } else {
@@ -39,11 +62,20 @@ public class Roomba : MonoBehaviour
   private void OnEnable() {
     node = new Map.Node(Map.Node.NodeType.Roomba);
     player = FindObjectOfType<PlayerController>();
+    spriteRenderer = GetComponentInChildren<SpriteRenderer>();
   }
 
   private void OnTriggerEnter2D(Collider2D collider) {
     NodeHolder nodeHolder = collider.gameObject.GetComponent<NodeHolder>();
     if (!nodeHolder) return;
+    
+    if (node.playerIsOnNode) {
+      nodeHolder.Node.isKnown = true;
+    }
+
+    if (nodeHolder.Node.playerIsOnNode) {
+      node.isKnown = true;
+    }
 
     node.links.Add(nodeHolder.Node);
     nodeHolder.Node.links.Add(node);
