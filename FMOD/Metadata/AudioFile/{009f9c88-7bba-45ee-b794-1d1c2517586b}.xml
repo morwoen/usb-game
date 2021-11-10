@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.01.00">
+	<object class="AudioFile" id="{009f9c88-7bba-45ee-b794-1d1c2517586b}">
+		<property name="assetPath">
+			<value>usb-music-drums.wav</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>33.119791666666664</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{5886dc52-3f25-4cfd-9d09-9176df30fab8}</destination>
+		</relationship>
+	</object>
+</objects>

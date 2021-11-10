@@ -7,76 +7,13 @@
 [LOG] OutputWASAPI::init                       : Output buffer size: 4096 samples, latency: 0.00ms, period: 10.00ms, DSP buffer: 1024 * 4
 [LOG] Thread::initThread                       : Init FMOD stream thread. Affinity: 0x8000000000000003, Priority: 0xFFFF7FFB, Stack Size: 98304, Semaphore: No, Sleep Time: 10, Looping: Yes.
 [LOG] Thread::initThread                       : Init FMOD mixer thread. Affinity: 0x8000000000000001, Priority: 0xFFFF7FFA, Stack Size: 81920, Semaphore: No, Sleep Time: 0, Looping: Yes.
-[LOG] AsyncManager::init                       : manager 000001FB32150C18 isAsync 0 updatePeriod 0.02
+[LOG] AsyncManager::init                       : manager 000001D63B355B28 isAsync 0 updatePeriod 0.02
 [LOG] AsyncManager::init                       : done
 [LOG] PlaybackSystem::init                     : 
 [LOG] Thread::initThread                       : Init FMOD Studio sample load thread. Affinity: 0x8000000000000003, Priority: 0xFFFF7FFD, Stack Size: 98304, Semaphore: No, Sleep Time: 1, Looping: No.
 [LOG] PlaybackSystem::init                     : done
 [LOG] Thread::initThread                       : Init FMOD Studio bank load thread. Affinity: 0x8000000000000003, Priority: 0xFFFF7FFD, Stack Size: 98304, Semaphore: No, Sleep Time: 1, Looping: No.
 [LOG] Manager::init                            : done.
-[LOG] Manager::readBank                        : fileversion = 135, compatVersion = 132 (oldest = 44, newest = 135)
-[LOG] Manager::readBank                        : fileversion = 135, compatVersion = 132 (oldest = 44, newest = 135)
-[LOG] Manager::readBank                        : fileversion = 135, compatVersion = 132 (oldest = 44, newest = 135)
-[LOG] PlaybackSystem::acquireMasterBus         : Setting master channel group format to 6
-[LOG] Manager::readBank                        : fileversion = 135, compatVersion = 132 (oldest = 44, newest = 135)
-[LOG] Manager::readBank                        : fileversion = 135, compatVersion = 132 (oldest = 44, newest = 135)
-[LOG] Manager::readBank                        : fileversion = 135, compatVersion = 132 (oldest = 44, newest = 135)
-[LOG] PlaybackSystem::acquireMasterBus         : Setting master channel group format to 6
-[LOG] SystemI::createSound                     : filename = FMOD/Build/Desktop/Master.bank : mode 02010082
-[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
-[LOG] SystemI::createSound                     : setdata soundi = 000001FB437F1EC8 : node = 000001FB43ADE840
-[LOG] SystemI::createSound                     : add node to async list : head = 000001FB4372D898.  list count = 0
-[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000001FB437F1EC8
-[LOG] SystemI::createSoundInternal             :     Create name='FMOD/Build/Desktop/Master.bank', mode=0x02010082
-[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
-[LOG] SystemI::createSoundInternal             :     exinfo->length             = 395872
-[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 2144
-[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000001FB43ADE950
-[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
-[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
-[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
-[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='usb-music', format=5, channels=2, frequency=48000, lengthbytes=395360, lengthpcm=2305250, pcmblocksize=0, loopstart=0, loopend=1535999, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.975098.
-[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000001FB437F1EC8
-[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000001FB437F34B8
-[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000001FB437F34B8
-[LOG] SoundI::release                          : usb-music (000001FB437ED128)
-[LOG] SoundI::release                          :     usb-music (000001FB5CAB0058)
-[LOG] SoundI::release                          :     usb-music (000001FB437F2DF8)
-[LOG] SystemI::createSound                     : filename = FMOD/Build/Desktop/Master.bank : mode 02010082
-[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
-[LOG] SystemI::createSound                     : setdata soundi = 000001FB437ED128 : node = 000001FB43ADE980
-[LOG] SystemI::createSound                     : add node to async list : head = 000001FB4372D898.  list count = 0
-[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000001FB437ED128
-[LOG] SystemI::createSoundInternal             :     Create name='FMOD/Build/Desktop/Master.bank', mode=0x02010082
-[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
-[LOG] SystemI::createSoundInternal             :     exinfo->length             = 395872
-[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 2144
-[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000001FB43ADEA90
-[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
-[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
-[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
-[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='usb-music', format=5, channels=2, frequency=48000, lengthbytes=395360, lengthpcm=2305250, pcmblocksize=0, loopstart=0, loopend=1535999, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.975098.
-[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000001FB437ED128
-[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000001FB437F6758
-[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000001FB437F6758
-[LOG] SoundI::release                          : usb-music (000001FB437ED128)
-[LOG] SoundI::release                          :     usb-music (000001FB5CAB0058)
-[LOG] SoundI::release                          :     usb-music (000001FB437F6758)
-[LOG] SoundI::release                          : usb-music (000001FB437F1EC8)
-[LOG] SoundI::release                          :     usb-music (000001FB5CAAF4F8)
-[LOG] SoundI::release                          :     usb-music (000001FB437F34B8)
-[LOG] Thread::callback                         : FMOD Studio update thread finished.
-[LOG] Thread::callback                         : FMOD Studio bank load thread finished.
-[LOG] Profile::disconnectAll                   : Profiler disconnecting all clients
-[LOG] Thread::callback                         : FMOD Studio sample load thread finished.
-[LOG] LiveUpdate::release                      : 
-[LOG] LiveUpdate::reset                        : Reset connection (reason Disconnected)
-[LOG] Thread::callback                         : FMOD stream thread finished.
-[LOG] Thread::callback                         : FMOD mixer thread finished.
-[LOG] Profile::disconnectAll                   : Profiler disconnecting all clients
-[LOG] SystemI::close                           : Closed.
 [LOG] Manager::readBank                        : fileversion = 135, compatVersion = 132 (oldest = 44, newest = 135)
 [LOG] Manager::readBank                        : fileversion = 135, compatVersion = 132 (oldest = 44, newest = 135)
 [LOG] Manager::readBank                        : fileversion = 135, compatVersion = 132 (oldest = 44, newest = 135)
