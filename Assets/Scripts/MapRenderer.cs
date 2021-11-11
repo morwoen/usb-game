@@ -22,6 +22,10 @@ public class MapRenderer : MonoBehaviour
   private GameObject roombaPrefab;
   [SerializeField]
   private GameObject doorPrefab;
+  [SerializeField]
+  private GameObject waterDispenserPrefab;
+  [SerializeField]
+  private GameObject coffeeMachinePrefab;
 
   public Tilemap WallsTilemap
   {
@@ -99,6 +103,12 @@ public class MapRenderer : MonoBehaviour
         nodeHolder.Node = cursor;
       } else if (cursor.type == Map.Node.NodeType.Server) {
         nodeHolder = Instantiate(computerPrefab, wallsTilemap.CellToWorld(cursor.tilemapPosition), Quaternion.identity, nodeParent).GetComponent<NodeHolder>();
+        nodeHolder.Node = cursor;
+      } else if (cursor.type == Map.Node.NodeType.WaterDispenser) {
+        nodeHolder = Instantiate(waterDispenserPrefab, wallsTilemap.CellToWorld(cursor.tilemapPosition), Quaternion.identity, nodeParent).GetComponent<NodeHolder>();
+        nodeHolder.Node = cursor;
+      } else if (cursor.type == Map.Node.NodeType.CoffeeMachine) {
+        nodeHolder = Instantiate(coffeeMachinePrefab, wallsTilemap.CellToWorld(cursor.tilemapPosition), Quaternion.identity, nodeParent).GetComponent<NodeHolder>();
         nodeHolder.Node = cursor;
       }
 

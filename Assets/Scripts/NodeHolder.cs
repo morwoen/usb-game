@@ -12,7 +12,6 @@ public class NodeHolder : MonoBehaviour
     }
   }
 
-
   private void Update() {
     spriteRenderer.enabled = Node.isKnown;
   }

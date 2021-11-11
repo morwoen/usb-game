@@ -34,6 +34,8 @@ public class MapGenerator
   private int computerSpaceAround = 2;
 
   private int roombaChancePerFloor = 70;
+  private int waterDispenserChancePerFloor = 70;
+  private int coffeeMachineChancePerFloor = 70;
 
   // prevent infinite/long loops due to randomness
   private int maxIterationsOnLinks = 10;
@@ -157,8 +159,13 @@ public class MapGenerator
         int rooms = Random.Range(1, 4);
         int xOffset = 0;
 
+        bool hasCoffeeMachine = false;
+        bool hasWaterDispenser = false;
+
         List<Map.Node> nodes = new List<Map.Node>();
         Map.Node door = null;
+
+        List<Map.Node> nodesToLinkToFromPreviousIteration = new List<Map.Node>();
 
         for (int room = 0; room < rooms; room++) {
           int remainingRooms = rooms - room - 1;
@@ -193,6 +200,15 @@ public class MapGenerator
               Debug.Log($"{nodeGlobalOffset} {yOffset + 1}");
             }
 
+            // link to any nodes from the previous room
+            if (nodesToLinkToFromPreviousIteration.Count > 0) {
+              foreach (Map.Node nodeFromPreviousIteration in nodesToLinkToFromPreviousIteration) {
+                node.links.Add(nodeFromPreviousIteration);
+                nodeFromPreviousIteration.links.Add(node);
+              }
+              nodesToLinkToFromPreviousIteration = new List<Map.Node>();
+            }
+
             // link the door next to it if present
             if (nodeIndex == 0 && door != null) {
               node.links.Add(door);
@@ -214,9 +230,51 @@ public class MapGenerator
             nodes.Add(node);
 
             nodeOffset += nodeSize + computerSpaceAround * 2;
+
+            if (!hasCoffeeMachine) {
+              int coffeeMachineGlobalOffset = nodeGlobalOffset + computerSpaceAround;
+              if (coffeeMachineGlobalOffset < buildingWidth) {
+                if (Random.Range(0, 101) < coffeeMachineChancePerFloor) {
+                  Map.Node coffeeMachine = new Map.Node(
+                    Map.Node.NodeType.CoffeeMachine,
+                    new Vector3Int(coffeeMachineGlobalOffset, yOffset + 2, 0),
+                    tilemap
+                  );
+
+                  node.links.Add(coffeeMachine);
+                  coffeeMachine.links.Add(node);
+                  nodesToLinkToFromPreviousIteration.Add(coffeeMachine);
+
+                  nodeOffset += 1;
+                  hasCoffeeMachine = true;
+                  continue;
+                }
+              }
+            }
+
+            if (!hasWaterDispenser) {
+              int waterDispenserGlobalOffset = nodeGlobalOffset + computerSpaceAround;
+              if (waterDispenserGlobalOffset < buildingWidth) {
+                if (Random.Range(0, 101) < waterDispenserChancePerFloor) {
+                  Map.Node waterDispenser = new Map.Node(
+                    Map.Node.NodeType.WaterDispenser,
+                    new Vector3Int(waterDispenserGlobalOffset, yOffset + 2, 0),
+                    tilemap
+                  );
+
+                  node.links.Add(waterDispenser);
+                  waterDispenser.links.Add(node);
+                  nodesToLinkToFromPreviousIteration.Add(waterDispenser);
+
+                  nodeOffset += 1;
+                  hasWaterDispenser = true;
+                  continue;
+                }
+              }
+            }
           }
 
-          if (remainingRooms > 0 && nodes.Count > 0) {
+          if (remainingRooms > 0) {
             // create and link door
             door = new Map.Node(
               Map.Node.NodeType.Door,
@@ -224,14 +282,15 @@ public class MapGenerator
               tilemap
             );
 
-
-            Map.Node finalNodeInLastRoom = nodes[nodes.Count - 1];
-            door.links.Add(finalNodeInLastRoom);
-            finalNodeInLastRoom.links.Add(door);
-            
-            if (debugging) {
-              debug.Add(door.tilemapPosition);
-              Debug.DrawLine(door.position, finalNodeInLastRoom.position, Color.red, 60);
+            if (nodes.Count > 0) {
+              Map.Node finalNodeInLastRoom = nodes[nodes.Count - 1];
+              door.links.Add(finalNodeInLastRoom);
+              finalNodeInLastRoom.links.Add(door);
+              
+              if (debugging) {
+                debug.Add(door.tilemapPosition);
+                Debug.DrawLine(door.position, finalNodeInLastRoom.position, Color.red, 60);
+              }
             }
           }
 

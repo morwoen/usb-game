@@ -58,7 +58,6 @@ public class Map
       CEODesk,
       Server,
       Door,
-      Light,
       WaterDispenser,
       CoffeeMachine,
       Roomba,
