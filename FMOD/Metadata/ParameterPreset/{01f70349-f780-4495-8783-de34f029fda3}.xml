@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.01.00">
+	<object class="ParameterPreset" id="{01f70349-f780-4495-8783-de34f029fda3}">
+		<property name="name">
+			<value>VolumeFade</value>
+		</property>
+		<relationship name="folder">
+			<destination>{5ce01f7d-a76d-4e91-b70d-2a0337ff9302}</destination>
+		</relationship>
+		<relationship name="parameter">
+			<destination>{dd98cfeb-e711-486d-8611-f7eb54f992ee}</destination>
+		</relationship>
+	</object>
+	<object class="GameParameter" id="{dd98cfeb-e711-486d-8611-f7eb54f992ee}">
+		<property name="initialValue">
+			<value>0</value>
+		</property>
+		<property name="seekSpeed">
+			<value>0.5</value>
+		</property>
+		<property name="seekSpeedDescending">
+			<value>0.5</value>
+		</property>
+		<property name="seekSpeedAsymmetric">
+			<value>true</value>
+		</property>
+		<relationship name="automators">
+			<destination>{dfdd9047-faa0-4663-b4cb-325df188ac48}</destination>
+		</relationship>
+	</object>
+	<object class="Automator" id="{dfdd9047-faa0-4663-b4cb-325df188ac48}">
+		<property name="nameOfPropertyBeingAutomated">
+			<value>cursorPosition</value>
+		</property>
+		<relationship name="automationCurves">
+			<destination>{78fad9de-db3a-4ec7-85c9-51c1b1e0728e}</destination>
+		</relationship>
+	</object>
+	<object class="AutomationCurve" id="{78fad9de-db3a-4ec7-85c9-51c1b1e0728e}">
+		<relationship name="parameter">
+			<destination>{d22178f9-50c7-4262-94f4-43e4bb877bc0}</destination>
+		</relationship>
+		<relationship name="automationPoints">
+			<destination>{0b0a6252-7046-453c-84b9-ba5314f87ed8}</destination>
+			<destination>{e8da336d-ec0b-4e21-82f4-791979e6f30d}</destination>
+		</relationship>
+	</object>
+	<object class="AutomationPoint" id="{0b0a6252-7046-453c-84b9-ba5314f87ed8}">
+		<property name="position">
+			<value>1</value>
+		</property>
+		<property name="value">
+			<value>1</value>
+		</property>
+	</object>
+	<object class="AutomationPoint" id="{e8da336d-ec0b-4e21-82f4-791979e6f30d}">
+		<property name="position">
+			<value>0</value>
+		</property>
+		<property name="value">
+			<value>0</value>
+		</property>
+	</object>
+</objects>
