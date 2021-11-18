@@ -7,6 +7,8 @@ using UnityEngine.Tilemaps;
 public class Map
 {
   Node currentNode;
+  Node serverNode;
+
   public List<Vector3Int> walls {
     get;
     private set;
@@ -33,13 +35,19 @@ public class Map
     get { return currentNode; }
     private set { currentNode = value; }
   }
+  public Node ServerNode
+  {
+    get { return serverNode; }
+    private set { serverNode = value; }
+  }
 
-  public Map(Node root, List<Vector3Int> walls, List<Vector3Int> ceilings, List<Vector3Int> roombas, List<Vector3Int> debug) {
+  public Map(Node root, Node server, List<Vector3Int> walls, List<Vector3Int> ceilings, List<Vector3Int> roombas, List<Vector3Int> debug) {
     this.currentNode = root;
     this.currentNode.playerIsOnNode = true;
     this.walls = walls;
     this.ceilings = ceilings;
     this.roombas = roombas;
+    this.serverNode = server;
     this.debug = debug;
   }
 
@@ -49,6 +57,7 @@ public class Map
     this.currentNode.playerIsOnNode = true;
   }
 
+  [Serializable]
   public class Node
   {
     public enum NodeType
@@ -81,24 +90,38 @@ public class Map
       private set;
     }
 
-    public NodeType type
+    [SerializeField]
+    [Header("Desk Left and Desk Right are interchangeable")]
+    private NodeType type;
+    public NodeType Type
     {
-      get;
-      private set;
+      get { return type; }
+      private set { type = value; }
     }
 
-    public bool isKnown;
-    public bool playerIsOnNode;
+    public bool isKnown { get; set; }
+    public bool playerIsOnNode { get; set; }
+
+    public bool IsComputer
+    {
+      get
+      {
+        return Type == Map.Node.NodeType.DeskRight ||
+          Type == Map.Node.NodeType.DeskLeft ||
+          Type == Map.Node.NodeType.CEODesk ||
+          Type == Map.Node.NodeType.Server;
+      }
+    }
 
     public void SetPosition(Vector3 pos) {
-      if (type != NodeType.Roomba) {
+      if (Type != NodeType.Roomba) {
         throw new Exception("Only Roombas have the power to do this, you are not a Roomba");
       }
       position = pos;
     }
 
     public Node(NodeType type, Vector3Int tilemapPosition, Tilemap tilemap) {
-      this.type = type;
+      this.Type = type;
       this.tilemapPosition = tilemapPosition;
       this.position = tilemap.CellToWorld(tilemapPosition);
       this.links = new List<Node>();
@@ -109,7 +132,7 @@ public class Map
       if (type != NodeType.Roomba) {
         throw new Exception("Use the other constructor for non-roomba nodes");
       }
-      this.type = type;
+      this.Type = type;
       this.isKnown = false;
       this.links = new List<Node>();
     }

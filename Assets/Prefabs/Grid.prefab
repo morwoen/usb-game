@@ -1914,6 +1914,7 @@ MonoBehaviour:
   doorPrefab: {fileID: 2112553744824722718, guid: b72199991b02058449be50204765729f, type: 3}
   waterDispenserPrefab: {fileID: 4483292126184601166, guid: b28ba0eb0000ff1478ba091635c0ed2b, type: 3}
   coffeeMachinePrefab: {fileID: 2458015952342193742, guid: 00e87ace068a52e4d920f32399f88041, type: 3}
+  enemyAiPrefab: {fileID: 6592312592627992436, guid: 3903f03cd12b9b543aaedb8c22df7f3e, type: 3}
 --- !u!1 &1852559304545516443
 GameObject:
   m_ObjectHideFlags: 0

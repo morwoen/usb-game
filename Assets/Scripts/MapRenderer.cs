@@ -26,6 +26,8 @@ public class MapRenderer : MonoBehaviour
   private GameObject waterDispenserPrefab;
   [SerializeField]
   private GameObject coffeeMachinePrefab;
+  [SerializeField]
+  private GameObject enemyAiPrefab;
 
   public Tilemap WallsTilemap
   {
@@ -65,7 +67,7 @@ public class MapRenderer : MonoBehaviour
 
     // render root desk
     Vector3Int computerLocation = cursor.tilemapPosition;
-    if (cursor.type == Map.Node.NodeType.DeskLeft) {
+    if (cursor.Type == Map.Node.NodeType.DeskLeft) {
       computerLocation = new Vector3Int(computerLocation.x + 3, computerLocation.y, 0);
     }
     Vector3Int computer2Location = new Vector3Int(computerLocation.x - 3, computerLocation.y, 0);
@@ -87,27 +89,27 @@ public class MapRenderer : MonoBehaviour
         continue;
       }
 
-      if (cursor.type == Map.Node.NodeType.DeskLeft || cursor.type == Map.Node.NodeType.DeskRight) {
+      if (cursor.Type == Map.Node.NodeType.DeskLeft || cursor.Type == Map.Node.NodeType.DeskRight) {
         computerLocation = cursor.tilemapPosition;
-        if (cursor.type == Map.Node.NodeType.DeskLeft) {
+        if (cursor.Type == Map.Node.NodeType.DeskLeft) {
           computerLocation = new Vector3Int(computerLocation.x + 1, computerLocation.y, 0);
         }
 
         nodeHolder = Instantiate(computerPrefab, wallsTilemap.CellToWorld(cursor.tilemapPosition), Quaternion.identity, nodeParent).GetComponent<NodeHolder>();
         nodeHolder.Node = cursor;
-      } else if (cursor.type == Map.Node.NodeType.CEODesk) {
+      } else if (cursor.Type == Map.Node.NodeType.CEODesk) {
         nodeHolder = Instantiate(computerPrefab, wallsTilemap.CellToWorld(cursor.tilemapPosition), Quaternion.identity, nodeParent).GetComponent<NodeHolder>();
         nodeHolder.Node = cursor;
-      } else if (cursor.type == Map.Node.NodeType.Door) {
+      } else if (cursor.Type == Map.Node.NodeType.Door) {
         nodeHolder = Instantiate(doorPrefab, wallsTilemap.CellToWorld(cursor.tilemapPosition), Quaternion.identity, nodeParent).GetComponent<NodeHolder>();
         nodeHolder.Node = cursor;
-      } else if (cursor.type == Map.Node.NodeType.Server) {
+      } else if (cursor.Type == Map.Node.NodeType.Server) {
         nodeHolder = Instantiate(computerPrefab, wallsTilemap.CellToWorld(cursor.tilemapPosition), Quaternion.identity, nodeParent).GetComponent<NodeHolder>();
         nodeHolder.Node = cursor;
-      } else if (cursor.type == Map.Node.NodeType.WaterDispenser) {
+      } else if (cursor.Type == Map.Node.NodeType.WaterDispenser) {
         nodeHolder = Instantiate(waterDispenserPrefab, wallsTilemap.CellToWorld(cursor.tilemapPosition), Quaternion.identity, nodeParent).GetComponent<NodeHolder>();
         nodeHolder.Node = cursor;
-      } else if (cursor.type == Map.Node.NodeType.CoffeeMachine) {
+      } else if (cursor.Type == Map.Node.NodeType.CoffeeMachine) {
         nodeHolder = Instantiate(coffeeMachinePrefab, wallsTilemap.CellToWorld(cursor.tilemapPosition), Quaternion.identity, nodeParent).GetComponent<NodeHolder>();
         nodeHolder.Node = cursor;
       }
@@ -116,6 +118,9 @@ public class MapRenderer : MonoBehaviour
         toBeVisited.Push(node);
       }
     }
+
+    EnemyAI enemy = Instantiate(enemyAiPrefab, wallsTilemap.CellToWorld(map.ServerNode.tilemapPosition), Quaternion.identity, nodeParent).GetComponent<EnemyAI>();
+    enemy.Node = map.ServerNode;
 
     foreach (var node in map.debug) {
       wallsTilemap.SetTile(node, tiles[debugIndex]);

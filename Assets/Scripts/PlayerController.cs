@@ -7,6 +7,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+  public Progress progress;
+  
   [SerializeField]
   private float speed = 12f;
   private float directionIndicatorDetectionAngle = 30f;
@@ -33,6 +35,10 @@ public class PlayerController : MonoBehaviour
       isMoving = value;
       directionIndicator.SetActive(!isMoving);
     }
+  }
+
+  private void Awake() {
+    DataManager.Load();
   }
 
   private void OnEnable() {
@@ -63,6 +69,10 @@ public class PlayerController : MonoBehaviour
           }
         });
       }
+    }
+
+    if (Input.GetKeyDown(KeyCode.X) && Input.GetKeyDown(KeyCode.LeftControl)) {
+      DataManager.Clear();
     }
   }
 

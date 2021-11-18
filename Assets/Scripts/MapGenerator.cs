@@ -15,7 +15,7 @@ public class MapGenerator
   public static int levels {
     get;
     private set;
-  } = 5;
+  } = 2;
 
   public static int buildingWidth {
     get;
@@ -53,6 +53,7 @@ public class MapGenerator
     Random.InitState(this.seed);
 
     Map.Node root = null;
+    Map.Node server = null;
     List<Map.Node> previousLevel = null;
 
     List<Vector3Int> walls = new List<Vector3Int>();
@@ -119,7 +120,7 @@ public class MapGenerator
         }
 
         int xOffset = variant == 0 ? ceoOfficeWidth + 1 : 0;
-        Map.Node server = new Map.Node(
+        server = new Map.Node(
           Map.Node.NodeType.Server,
           new Vector3Int(-buildingHalfWidth + xOffset + Mathf.FloorToInt(serverRoomSize / 2), yOffset + 1, 0),
           tilemap
@@ -344,7 +345,7 @@ public class MapGenerator
     }
 
     root.isKnown = true;
-    Map map = new Map(root, walls, ceiling, roombas, debug);
+    Map map = new Map(root, server, walls, ceiling, roombas, debug);
 
     return map;
   }
