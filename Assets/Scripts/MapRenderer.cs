@@ -67,9 +67,6 @@ public class MapRenderer : MonoBehaviour
 
     // render root desk
     Vector3Int computerLocation = cursor.tilemapPosition;
-    if (cursor.Type == Map.Node.NodeType.DeskLeft) {
-      computerLocation = new Vector3Int(computerLocation.x + 3, computerLocation.y, 0);
-    }
     Vector3Int computer2Location = new Vector3Int(computerLocation.x - 3, computerLocation.y, 0);
     Vector3Int deskLeft = new Vector3Int(computerLocation.x - 4, computerLocation.y - 1, 0);
     Vector3Int deskRight = new Vector3Int(computerLocation.x + 1, computerLocation.y - 1, 0);
@@ -89,12 +86,8 @@ public class MapRenderer : MonoBehaviour
         continue;
       }
 
-      if (cursor.Type == Map.Node.NodeType.DeskLeft || cursor.Type == Map.Node.NodeType.DeskRight) {
+      if (cursor.Type == Map.Node.NodeType.Desk) {
         computerLocation = cursor.tilemapPosition;
-        if (cursor.Type == Map.Node.NodeType.DeskLeft) {
-          computerLocation = new Vector3Int(computerLocation.x + 1, computerLocation.y, 0);
-        }
-
         nodeHolder = Instantiate(computerPrefab, wallsTilemap.CellToWorld(cursor.tilemapPosition), Quaternion.identity, nodeParent).GetComponent<NodeHolder>();
         nodeHolder.Node = cursor;
       } else if (cursor.Type == Map.Node.NodeType.CEODesk) {

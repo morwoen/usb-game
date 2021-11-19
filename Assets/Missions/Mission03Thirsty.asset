@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7c65cc9e70eb9c74eb9a91931057cbd6, type: 3}
-  m_Name: Mission01Server
+  m_Name: Mission03Thirsty
   m_EditorClassIdentifier: 
   sprite: {fileID: 0}
-  description: Hack the server
+  description: Hack all water dispensers
   steps:
   - goals:
     - type: 0
-      message: Hack the server
-      targetType: 3
+      message: Disable the Water Dispenser
+      targetType: 5
       numberOfTargets: 0

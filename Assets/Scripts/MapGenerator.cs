@@ -56,6 +56,8 @@ public class MapGenerator
     Map.Node server = null;
     List<Map.Node> previousLevel = null;
 
+    List<Map.Node> nodes = new List<Map.Node>();
+
     List<Vector3Int> walls = new List<Vector3Int>();
     List<Vector3Int> ceiling = new List<Vector3Int>();
     List<Vector3Int> debug = new List<Vector3Int>();
@@ -90,10 +92,11 @@ public class MapGenerator
         // first level is always the reception
         int deskPosition = Random.Range(-receptionDeskOffset, receptionDeskOffset);
         root = new Map.Node(
-          Random.Range(0, 2) == 0 ? Map.Node.NodeType.DeskRight : Map.Node.NodeType.DeskLeft,
+          Map.Node.NodeType.Desk,
           new Vector3Int(deskPosition, 1, 0),
           tilemap
         );
+        nodes.Add(root);
         previousLevel = new List<Map.Node>();
         previousLevel.Add(root);
       } else if (level == levels - 1) {
@@ -114,6 +117,7 @@ public class MapGenerator
           new Vector3Int(-buildingHalfWidth + leftRoomSize, yOffset + 1, 0),
           tilemap
         );
+        nodes.Add(door);
 
         for (int yIndex = yOffset + 3; yIndex < yOffset + ceilingHeight; yIndex++) {
           walls.Add(new Vector3Int(-buildingHalfWidth + leftRoomSize, yIndex, 0));
@@ -125,6 +129,7 @@ public class MapGenerator
           new Vector3Int(-buildingHalfWidth + xOffset + Mathf.FloorToInt(serverRoomSize / 2), yOffset + 1, 0),
           tilemap
         );
+        nodes.Add(server);
 
         xOffset = variant == 0 ? 0 : serverRoomSize + 1;
         Map.Node ceoComputer = new Map.Node(
@@ -132,6 +137,7 @@ public class MapGenerator
           new Vector3Int(-buildingHalfWidth + xOffset + Mathf.FloorToInt(ceoOfficeWidth / 2), yOffset + 1, 0),
           tilemap
         );
+        nodes.Add(ceoComputer);
 
         ceoComputer.links.Add(door);
         door.links.Add(ceoComputer);
@@ -163,7 +169,7 @@ public class MapGenerator
         bool hasCoffeeMachine = false;
         bool hasWaterDispenser = false;
 
-        List<Map.Node> nodes = new List<Map.Node>();
+        List<Map.Node> nodeOnLevel = new List<Map.Node>();
         Map.Node door = null;
 
         List<Map.Node> nodesToLinkToFromPreviousIteration = new List<Map.Node>();
@@ -191,10 +197,11 @@ public class MapGenerator
             int nodeGlobalOffset = roomGlobalOffset + nodeOffset + computerSpaceAround + nodeSize;
 
             Map.Node node = new Map.Node(
-              Random.Range(0, 2) == 0 ? Map.Node.NodeType.DeskRight : Map.Node.NodeType.DeskLeft,
+              Map.Node.NodeType.Desk,
               new Vector3Int(nodeGlobalOffset, yOffset + 1, 0),
               tilemap
             );
+            nodes.Add(node);
 
             if (debugging) {
               debug.Add(node.tilemapPosition);
@@ -219,7 +226,7 @@ public class MapGenerator
                 Debug.DrawLine(door.position, node.position, Color.red, 60);
               }
             } else if (nodeIndex > 0) {
-              Map.Node previousNode = nodes[nodes.Count - 1];
+              Map.Node previousNode = nodeOnLevel[nodeOnLevel.Count - 1];
               previousNode.links.Add(node);
               node.links.Add(previousNode);
 
@@ -228,7 +235,7 @@ public class MapGenerator
               }
             }
 
-            nodes.Add(node);
+            nodeOnLevel.Add(node);
 
             nodeOffset += nodeSize + computerSpaceAround * 2;
 
@@ -241,6 +248,7 @@ public class MapGenerator
                     new Vector3Int(coffeeMachineGlobalOffset, yOffset + 2, 0),
                     tilemap
                   );
+                  nodes.Add(coffeeMachine);
 
                   node.links.Add(coffeeMachine);
                   coffeeMachine.links.Add(node);
@@ -262,6 +270,7 @@ public class MapGenerator
                     new Vector3Int(waterDispenserGlobalOffset, yOffset + 2, 0),
                     tilemap
                   );
+                  nodes.Add(waterDispenser);
 
                   node.links.Add(waterDispenser);
                   waterDispenser.links.Add(node);
@@ -282,9 +291,10 @@ public class MapGenerator
               new Vector3Int(roomGlobalOffset + roomSize + 1, yOffset + 1, 0),
               tilemap
             );
+            nodes.Add(door);
 
-            if (nodes.Count > 0) {
-              Map.Node finalNodeInLastRoom = nodes[nodes.Count - 1];
+            if (nodeOnLevel.Count > 0) {
+              Map.Node finalNodeInLastRoom = nodeOnLevel[nodeOnLevel.Count - 1];
               door.links.Add(finalNodeInLastRoom);
               finalNodeInLastRoom.links.Add(door);
               
@@ -299,21 +309,21 @@ public class MapGenerator
         }
 
         // link to previous level
-        int linksBetweenLevels = Random.Range(1, Mathf.Min(3, nodes.Count));
+        int linksBetweenLevels = Random.Range(1, Mathf.Min(3, nodeOnLevel.Count));
         HashSet<Tuple<Map.Node, Map.Node>> links = new HashSet<Tuple<Map.Node, Map.Node>>();
         for (int linkIndex = 0; linkIndex < linksBetweenLevels; linkIndex++) {
-          int rndSourceIndex = Random.Range(0, nodes.Count);
+          int rndSourceIndex = Random.Range(0, nodeOnLevel.Count);
           int rndTargetIndex = Random.Range(0, previousLevel.Count);
-          Map.Node sourceNode = nodes[rndSourceIndex];
+          Map.Node sourceNode = nodeOnLevel[rndSourceIndex];
           Map.Node targetNode = previousLevel[rndTargetIndex];
           Tuple<Map.Node, Map.Node> tuple = Tuple.Create(sourceNode, targetNode);
           bool found = links.Add(tuple);
 
           int iterations = 0;
           while (!found && iterations < maxIterationsOnLinks) {
-            rndSourceIndex = Random.Range(0, nodes.Count);
+            rndSourceIndex = Random.Range(0, nodeOnLevel.Count);
             rndTargetIndex = Random.Range(0, previousLevel.Count);
-            sourceNode = nodes[rndSourceIndex];
+            sourceNode = nodeOnLevel[rndSourceIndex];
             targetNode = previousLevel[rndTargetIndex];
             tuple = Tuple.Create(sourceNode, targetNode);
             found = links.Add(tuple);
@@ -332,20 +342,20 @@ public class MapGenerator
 
         // In case the randomness fails us, just create a link so the game can continue
         if (links.Count == 0) {
-          nodes[0].links.Add(previousLevel[0]);
-          previousLevel[0].links.Add(nodes[0]);
+          nodeOnLevel[0].links.Add(previousLevel[0]);
+          previousLevel[0].links.Add(nodeOnLevel[0]);
 
           if (debugging) {
-            Debug.DrawLine(nodes[0].position, previousLevel[0].position, Color.red, 60);
+            Debug.DrawLine(nodeOnLevel[0].position, previousLevel[0].position, Color.red, 60);
           }
         }
 
-        previousLevel = nodes;
+        previousLevel = nodeOnLevel;
       }
     }
 
     root.isKnown = true;
-    Map map = new Map(root, server, walls, ceiling, roombas, debug);
+    Map map = new Map(root, nodes, walls, ceiling, roombas, debug);
 
     return map;
   }

@@ -54,6 +54,7 @@ public class PlayerController : MonoBehaviour
   private void RegenerateMap() {
     MapGenerator generator = new MapGenerator(mapRenderer.WallsTilemap);
     map = generator.Generate();
+    MissionManager.PopulateMissions(map);
     mapRenderer.Render(map);
   }
 

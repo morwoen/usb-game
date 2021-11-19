@@ -6,11 +6,14 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Mission", menuName = "Missions/Mission")]
 public class Mission : ScriptableObject
 {
-  public Step currentStep { get; private set; }
+  public int currentStep { get; set; }
+  public Sprite sprite;
+  public string description;
   public List<Step> steps;
+  public bool impossible = false;
 
   private void Awake() {
-    currentStep = steps[0];
+    currentStep = 0;
   }
 
   [Serializable]
@@ -24,8 +27,6 @@ public class Mission : ScriptableObject
   {
     public enum GoalType
     {
-      GoTo,
-      GatherData,
       Hack,
     }
 
@@ -33,11 +34,12 @@ public class Mission : ScriptableObject
     [Header("Use {targets} to be replaced with the number of remaining targets")]
     public string message;
     [Header("Will be populated with random nodes of the given type at runtime")]
-    public List<Map.Node> targets;
+    public Map.Node.NodeType targetType;
+    public int numberOfTargets;
 
-    public Goal(GoalType type, List<Map.Node> targets) {
-      this.type = type;
-      this.targets = targets;
-    }
+    [NonSerialized]
+    public bool completed = false;
+    [NonSerialized]
+    public List<Map.Node> targets;
   }
 }

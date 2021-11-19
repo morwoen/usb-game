@@ -1,5 +1,5 @@
 using System;
-using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -7,7 +7,12 @@ using UnityEngine.Tilemaps;
 public class Map
 {
   Node currentNode;
-  Node serverNode;
+
+  public List<Node> nodes
+  {
+    get;
+    private set;
+  }
 
   public List<Vector3Int> walls {
     get;
@@ -37,17 +42,16 @@ public class Map
   }
   public Node ServerNode
   {
-    get { return serverNode; }
-    private set { serverNode = value; }
+    get { return nodes.First(n => n.Type == Node.NodeType.Server); }
   }
 
-  public Map(Node root, Node server, List<Vector3Int> walls, List<Vector3Int> ceilings, List<Vector3Int> roombas, List<Vector3Int> debug) {
+  public Map(Node root, List<Node> nodes, List<Vector3Int> walls, List<Vector3Int> ceilings, List<Vector3Int> roombas, List<Vector3Int> debug) {
     this.currentNode = root;
     this.currentNode.playerIsOnNode = true;
     this.walls = walls;
     this.ceilings = ceilings;
     this.roombas = roombas;
-    this.serverNode = server;
+    this.nodes = nodes;
     this.debug = debug;
   }
 
@@ -62,8 +66,7 @@ public class Map
   {
     public enum NodeType
     {
-      DeskRight,
-      DeskLeft,
+      Desk,
       CEODesk,
       Server,
       Door,
@@ -106,10 +109,9 @@ public class Map
     {
       get
       {
-        return Type == Map.Node.NodeType.DeskRight ||
-          Type == Map.Node.NodeType.DeskLeft ||
-          Type == Map.Node.NodeType.CEODesk ||
-          Type == Map.Node.NodeType.Server;
+        return Type == NodeType.Desk ||
+          Type == NodeType.CEODesk ||
+          Type == NodeType.Server;
       }
     }
 
