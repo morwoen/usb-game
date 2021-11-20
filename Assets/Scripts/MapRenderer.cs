@@ -6,6 +6,8 @@ using UnityEngine.Tilemaps;
 public class MapRenderer : MonoBehaviour
 {
   [SerializeField]
+  private Tilemap backgroundTilemap;
+  [SerializeField]
   private Tilemap wallsTilemap;
   [SerializeField]
   private Tilemap groundTilemap;
@@ -18,6 +20,12 @@ public class MapRenderer : MonoBehaviour
   private Transform nodeParent;
   [SerializeField]
   private GameObject computerPrefab;
+  [SerializeField]
+  private GameObject serverPrefab;
+  [SerializeField]
+  private GameObject ceoPrefab;
+  [SerializeField]
+  private GameObject receptionPrefab;
   [SerializeField]
   private GameObject roombaPrefab;
   [SerializeField]
@@ -41,10 +49,27 @@ public class MapRenderer : MonoBehaviour
   private Stack<Map.Node> toBeVisited;
   private HashSet<Map.Node> visitedNodes;
 
-  private int wallTileIndex = 48;
-  private int ceilingTileIndex = 50;
+  private int wallTileIndex = 9;
+  private int ceilingTileIndex = 9;
+  private int floorTileIndex = 4;
+  private int floorCeilingTileIndex = 3;
+  private int backgroundFloorTileIndex = 2;
+  private int backgroundTileIndex = 0;
+  private int backgroundCeilingTileIndex = 1;
 
-  private int debugIndex = 15;
+  private int debugIndex = 6;
+
+  private int GetCeilingTileIndex(int y) {
+    if (y <= 0) {
+      return floorTileIndex;
+    }
+
+    if (y < MapGenerator.levels * MapGenerator.ceilingHeight) {
+      return floorCeilingTileIndex;
+    }
+
+    return ceilingTileIndex;
+  }
 
   public void Render(Map map) {
     wallsTilemap.ClearAllTiles();
@@ -55,7 +80,22 @@ public class MapRenderer : MonoBehaviour
     }
 
     map.walls.ForEach(vec => wallsTilemap.SetTile(vec, tiles[wallTileIndex]));
-    map.ceilings.ForEach(vec => groundTilemap.SetTile(vec, tiles[ceilingTileIndex]));
+    map.ceilings.ForEach(vec => groundTilemap.SetTile(vec, tiles[GetCeilingTileIndex(vec.y)]));
+
+    for (int level = 0; level < MapGenerator.levels; level++) {
+      int yOffset = level * (MapGenerator.ceilingHeight + 1);
+      for (int x = - MapGenerator.buildingWidth / 2; x < MapGenerator.buildingWidth / 2; x++) {
+        for (int y = 0; y < MapGenerator.ceilingHeight; y++) {
+          if (y == 0) {
+            backgroundTilemap.SetTile(new Vector3Int(x, y + yOffset, 0), tiles[backgroundFloorTileIndex]);
+          } else if (y < MapGenerator.ceilingHeight - 1) {
+            backgroundTilemap.SetTile(new Vector3Int(x, y + yOffset, 0), tiles[backgroundTileIndex]);
+          } else {
+            backgroundTilemap.SetTile(new Vector3Int(x, y + yOffset, 0), tiles[backgroundCeilingTileIndex]);
+          }
+        }
+      }
+    }
 
     // Spawn roombas
     map.roombas.ForEach(vec => {
@@ -75,7 +115,7 @@ public class MapRenderer : MonoBehaviour
     Vector3Int deskLeft = new Vector3Int(computerLocation.x - 4, computerLocation.y - 1, 0);
     Vector3Int deskRight = new Vector3Int(computerLocation.x + 1, computerLocation.y - 1, 0);
 
-    NodeHolder nodeHolder = Instantiate(computerPrefab, cursor.position, Quaternion.identity, nodeParent).GetComponent<NodeHolder>();
+    NodeHolder nodeHolder = Instantiate(receptionPrefab, cursor.position, Quaternion.identity, nodeParent).GetComponent<NodeHolder>();
     nodeHolder.Node = cursor;
 
     // render all screens
@@ -92,22 +132,22 @@ public class MapRenderer : MonoBehaviour
 
       if (cursor.Type == Map.Node.NodeType.Desk) {
         computerLocation = cursor.tilemapPosition;
-        nodeHolder = Instantiate(computerPrefab, wallsTilemap.CellToWorld(cursor.tilemapPosition), Quaternion.identity, nodeParent).GetComponent<NodeHolder>();
+        nodeHolder = Instantiate(computerPrefab, cursor.position, Quaternion.identity, nodeParent).GetComponent<NodeHolder>();
         nodeHolder.Node = cursor;
       } else if (cursor.Type == Map.Node.NodeType.CEODesk) {
-        nodeHolder = Instantiate(computerPrefab, wallsTilemap.CellToWorld(cursor.tilemapPosition), Quaternion.identity, nodeParent).GetComponent<NodeHolder>();
+        nodeHolder = Instantiate(ceoPrefab, cursor.position, Quaternion.identity, nodeParent).GetComponent<NodeHolder>();
         nodeHolder.Node = cursor;
       } else if (cursor.Type == Map.Node.NodeType.Door) {
-        nodeHolder = Instantiate(doorPrefab, wallsTilemap.CellToWorld(cursor.tilemapPosition), Quaternion.identity, nodeParent).GetComponent<NodeHolder>();
+        nodeHolder = Instantiate(doorPrefab, cursor.position, Quaternion.identity, nodeParent).GetComponent<NodeHolder>();
         nodeHolder.Node = cursor;
       } else if (cursor.Type == Map.Node.NodeType.Server) {
-        nodeHolder = Instantiate(computerPrefab, wallsTilemap.CellToWorld(cursor.tilemapPosition), Quaternion.identity, nodeParent).GetComponent<NodeHolder>();
+        nodeHolder = Instantiate(serverPrefab, cursor.position, Quaternion.identity, nodeParent).GetComponent<NodeHolder>();
         nodeHolder.Node = cursor;
       } else if (cursor.Type == Map.Node.NodeType.WaterDispenser) {
-        nodeHolder = Instantiate(waterDispenserPrefab, wallsTilemap.CellToWorld(cursor.tilemapPosition), Quaternion.identity, nodeParent).GetComponent<NodeHolder>();
+        nodeHolder = Instantiate(waterDispenserPrefab, cursor.position, Quaternion.identity, nodeParent).GetComponent<NodeHolder>();
         nodeHolder.Node = cursor;
       } else if (cursor.Type == Map.Node.NodeType.CoffeeMachine) {
-        nodeHolder = Instantiate(coffeeMachinePrefab, wallsTilemap.CellToWorld(cursor.tilemapPosition), Quaternion.identity, nodeParent).GetComponent<NodeHolder>();
+        nodeHolder = Instantiate(coffeeMachinePrefab, cursor.position, Quaternion.identity, nodeParent).GetComponent<NodeHolder>();
         nodeHolder.Node = cursor;
       }
 

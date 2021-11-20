@@ -3,7 +3,8 @@ using UnityEngine;
 public class NodeHolder : MonoBehaviour
 {
   public Map.Node Node;
-  private SpriteRenderer spriteRenderer;
+  public SpriteRenderer spriteRenderer;
+  public bool alwaysShow;
 
   private void OnEnable() {
     spriteRenderer = GetComponent<SpriteRenderer>();
@@ -13,6 +14,8 @@ public class NodeHolder : MonoBehaviour
   }
 
   private void Update() {
-    spriteRenderer.enabled = Node.isKnown;
+    if (!alwaysShow) {
+      spriteRenderer.enabled = Node.isKnown;
+    }
   }
 }

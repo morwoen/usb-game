@@ -135,6 +135,7 @@ public class Map
       this.Type = type;
       this.tilemapPosition = tilemapPosition;
       this.position = tilemap.CellToWorld(tilemapPosition);
+      this.position = new Vector3(type == NodeType.CoffeeMachine ? this.position.x : this.position.x + 0.5f, this.position.y, this.position.z);
       this.links = new List<Node>();
       this.isKnown = false;
       this.level = level;

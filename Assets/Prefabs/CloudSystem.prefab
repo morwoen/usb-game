@@ -50,6 +50,8 @@ MonoBehaviour:
   speedRange: {x: 1, y: 5}
   prefabs:
   - {fileID: 2049398344371305512, guid: e7840f5c53263124eba75f3683207170, type: 3}
+  - {fileID: 2049398344371305512, guid: 247c0acb8c06a4d4caf6c7837f3ebaf9, type: 3}
+  - {fileID: 2049398344371305512, guid: 1f3f772dde3946c48a522ace623d994d, type: 3}
 --- !u!1 &8403139461297988313
 GameObject:
   m_ObjectHideFlags: 0

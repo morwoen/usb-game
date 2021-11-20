@@ -22,7 +22,7 @@ public class MapGenerator
   {
     get;
     private set;
-  } = 34;
+  } = 32;
 
   public static int ceilingHeight
   {
@@ -67,7 +67,7 @@ public class MapGenerator
     List<Vector3Int> roombas = new List<Vector3Int>();
 
     // bottom floor
-    for (int i = -buildingHalfWidth; i < buildingHalfWidth; i++) {
+    for (int i = -buildingHalfWidth + 1; i < buildingHalfWidth - 1; i++) {
       ceiling.Add(new Vector3Int(i, -1, 0));
     }
 
@@ -75,7 +75,7 @@ public class MapGenerator
       int yOffset = level * (ceilingHeight + 1);
 
       // generate walls
-      for (int wallIndex = 0; wallIndex < ceilingHeight + 1; wallIndex++) {
+      for (int wallIndex = -1; wallIndex < ceilingHeight + 1; wallIndex++) {
         walls.Add(new Vector3Int(-buildingHalfWidth, yOffset + wallIndex, 0));
         walls.Add(new Vector3Int(buildingHalfWidth - 1, yOffset + wallIndex, 0));
       }
@@ -248,8 +248,8 @@ public class MapGenerator
             nodeOffset += nodeSize + computerSpaceAround * 2;
 
             if (!hasCoffeeMachine) {
-              int coffeeMachineGlobalOffset = nodeGlobalOffset + computerSpaceAround;
-              if (coffeeMachineGlobalOffset < buildingWidth) {
+              int coffeeMachineGlobalOffset = nodeGlobalOffset + computerSpaceAround + 2;
+              if (maxNodeSpace - nodeSize > 2) {
                 if (Random.Range(0, 101) < coffeeMachineChancePerFloor) {
                   Map.Node coffeeMachine = new Map.Node(
                     Map.Node.NodeType.CoffeeMachine,
@@ -263,7 +263,7 @@ public class MapGenerator
                   coffeeMachine.links.Add(node);
                   nodesToLinkToFromPreviousIteration.Add(coffeeMachine);
 
-                  nodeOffset += 1;
+                  nodeOffset += 2;
                   hasCoffeeMachine = true;
                   continue;
                 }
@@ -271,8 +271,8 @@ public class MapGenerator
             }
 
             if (!hasWaterDispenser) {
-              int waterDispenserGlobalOffset = nodeGlobalOffset + computerSpaceAround;
-              if (waterDispenserGlobalOffset < buildingWidth) {
+              int waterDispenserGlobalOffset = nodeGlobalOffset + computerSpaceAround + 1;
+              if (maxNodeSpace - nodeSize > 1) {
                 if (Random.Range(0, 101) < waterDispenserChancePerFloor) {
                   Map.Node waterDispenser = new Map.Node(
                     Map.Node.NodeType.WaterDispenser,

@@ -8,10 +8,10 @@ public class Door : NodeHolder
   private SpriteRenderer sprite;
 
   private void OnTriggerEnter2D(Collider2D collision) {
-    sprite.enabled = false;
+    //sprite.enabled = false;
   }
 
   private void OnTriggerExit2D(Collider2D collision) {
-    sprite.enabled = Node.isKnown;
+    //sprite.enabled = Node.isKnown;
   }
 }
