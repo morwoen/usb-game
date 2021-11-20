@@ -13,6 +13,12 @@ public class PlayerController : MonoBehaviour
   private float speed = 12f;
   private float directionIndicatorDetectionAngle = 30f;
 
+
+  [SerializeField]
+  private float networkDiscoveryInteractionTime = 2f;
+  [SerializeField]
+  private float interactionTime = 5f;
+
   [SerializeField]
   private GameObject directionIndicator;
 
@@ -28,6 +34,7 @@ public class PlayerController : MonoBehaviour
   private List<LineRenderer> lineRenderers;
   private MapRenderer mapRenderer;
   private Map map;
+  private ActionsRenderer actionsRenderer;
 
   public bool IsMoving {
     get { return isMoving; }
@@ -43,6 +50,7 @@ public class PlayerController : MonoBehaviour
 
   private void OnEnable() {
     mapRenderer = FindObjectOfType<MapRenderer>();
+    actionsRenderer = FindObjectOfType<ActionsRenderer>();
     lineRenderers = GetComponentsInChildren(typeof(LineRenderer))
       .Select(c => (LineRenderer)c)
       .ToList();
@@ -54,27 +62,54 @@ public class PlayerController : MonoBehaviour
   private void RegenerateMap() {
     MapGenerator generator = new MapGenerator(mapRenderer.WallsTilemap);
     map = generator.Generate();
-    MissionManager.PopulateMissions(map);
     mapRenderer.Render(map);
+    MissionManager.PopulateMissions(map);
+    actionsRenderer.UpdateActions(map);
   }
 
   private void Update() {
+    if (TransitionManager.IsTransitioning()) {
+      return;
+    }
+
     UpdateNavigationLines();
     Navigation();
 
-    if (Input.GetKeyDown(KeyCode.E)) {
-      if (!Interaction.IsInteracting) {
-        Interaction.Interact(1, didComplete => {
-          if (didComplete) {
-            map.CurrentNode.links.ForEach(node => node.isKnown = true);
+    if (!Interaction.IsInteracting) {
+      bool networkUndiscovered = map.CurrentNode.links.FirstOrDefault(node => !node.isKnown) != null;
+      for (int key = (int)KeyCode.Alpha1; key < (int)KeyCode.Alpha9; key++) {
+        if (Input.GetKeyDown((KeyCode)key)) {
+          if (key == (int)KeyCode.Alpha1 && networkUndiscovered) {
+            // Discover network
+            Interaction.Interact(networkDiscoveryInteractionTime, didComplete => {
+              if (didComplete) {
+                map.CurrentNode.links.ForEach(node => node.isKnown = true);
+                actionsRenderer.UpdateActions(map);
+              }
+            });
+          } else {
+            List<Mission.Goal> possibleActions = MissionManager.GetInteractions(map.CurrentNode);
+            int interactionIndex = key - (int)KeyCode.Alpha1 - (networkUndiscovered ? 1 : 0);
+            if (interactionIndex >= 0 && interactionIndex < possibleActions.Count) {
+              RunInteraction(possibleActions[interactionIndex]);
+            }
           }
-        });
+        }
       }
     }
 
     if (Input.GetKeyDown(KeyCode.X) && Input.GetKeyDown(KeyCode.LeftControl)) {
       DataManager.Clear();
     }
+  }
+
+  private void RunInteraction(Mission.Goal action) {
+    Interaction.Interact(interactionTime, didComplete => {
+      if (didComplete) {
+        MissionManager.Interact(action, map.CurrentNode);
+        actionsRenderer.UpdateActions(map);
+      }
+    });
   }
 
   private void Navigation() {
@@ -164,10 +199,12 @@ public class PlayerController : MonoBehaviour
 
   void OnTweenComplete() {
     IsMoving = false;
+    actionsRenderer.UpdateActions(map);
   }
 
   void Move(Vector3[] path) {
     IsMoving = true;
+    actionsRenderer.HideActions();
     transform.DOPath(path, speed, gizmoColor: Color.red)
       .SetSpeedBased()
       .SetEase(Ease.Linear)

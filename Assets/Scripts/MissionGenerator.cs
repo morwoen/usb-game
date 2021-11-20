@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class MissionGenerator : MonoBehaviour
 {
-  // completion of a mission, win, restart
-  // start of game text to show progress
-  // failure, restart
   public static void PopulateMissions(Map map, List<Mission> missions) {
     foreach (Mission mission in missions) {
       foreach (Mission.Step step in mission.steps) {
@@ -21,7 +18,7 @@ public class MissionGenerator : MonoBehaviour
           if (goal.numberOfTargets == 0) {
             goal.targets = possibleTargets;
           } else {
-            goal.targets = GenerateRandom(possibleTargets.Count).Select(ind => possibleTargets[ind]).ToList();
+            goal.targets = GenerateRandom(goal.numberOfTargets, possibleTargets.Count).Select(ind => possibleTargets[ind]).ToList();
           }
         }
         
@@ -29,17 +26,13 @@ public class MissionGenerator : MonoBehaviour
           break;
         }
       }
-      
-      if (mission.impossible) {
-        break;
-      }
     }
   }
 
-  private static List<int> GenerateRandom(int els) {
+  private static List<int> GenerateRandom(int count, int max) {
     HashSet<int> candidates = new HashSet<int>();
 
-    for (int top = 0; top < els; top++) {
+    for (int top = max - count; top < max; top++) {
       if (!candidates.Add(Random.Range(0, top + 1))) {
         candidates.Add(top);
       }

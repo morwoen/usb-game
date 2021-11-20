@@ -18,5 +18,5 @@ MonoBehaviour:
   - goals:
     - type: 0
       message: Disable Coffee Machine
-      targetType: 6
+      targetType: 5
       numberOfTargets: 0

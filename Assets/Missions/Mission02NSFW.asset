@@ -23,5 +23,5 @@ MonoBehaviour:
   - goals:
     - type: 0
       message: Upload NSFW content to CEO computer
-      targetType: 2
+      targetType: 1
       numberOfTargets: 0

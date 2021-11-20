@@ -15,7 +15,7 @@ public class MapGenerator
   public static int levels {
     get;
     private set;
-  } = 2;
+  } = 5;
 
   public static int buildingWidth {
     get;

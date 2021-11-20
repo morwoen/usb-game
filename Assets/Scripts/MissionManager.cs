@@ -15,7 +15,7 @@ public class MissionManager : MonoBehaviour
 
   private void OnWin(Mission mission) {
     DataManager.CompleteMission(mission);
-    // TODO: win screen
+    TransitionManager.Win(mission);
   }
 
   private static void Load() {
@@ -29,6 +29,7 @@ public class MissionManager : MonoBehaviour
 
     List<Mission.Goal> goals = new List<Mission.Goal>();
     foreach (Mission mission in instance.database.missions) {
+      if (mission.impossible) continue;
       foreach (Mission.Goal goal in mission.steps[mission.currentStep].goals) {
         if (goal.targets.Contains(node) && !goal.completed) {
           goals.Add(goal);
@@ -65,5 +66,22 @@ public class MissionManager : MonoBehaviour
     Load();
 
     MissionGenerator.PopulateMissions(map, instance.database.missions.ToList());
+  }
+
+  public static ProgressReport GetProgressReport() {
+    Load();
+
+    return new ProgressReport(instance.database.missions.Length, instance.database.missions.Where(miss => DataManager.IsCompleted(miss)).Count());
+  }
+
+  public class ProgressReport
+  {
+    public int totalMissions;
+    public int completedMissions;
+
+    public ProgressReport (int total, int completed) {
+      this.totalMissions = total;
+      this.completedMissions = completed;
+    }
   }
 }

@@ -10,10 +10,13 @@ public class Mission : ScriptableObject
   public Sprite sprite;
   public string description;
   public List<Step> steps;
+  [NonSerialized]
   public bool impossible = false;
 
   private void Awake() {
     currentStep = 0;
+    steps.ForEach(s => s.goals.ForEach(g => g.completed = false));
+    impossible = false;
   }
 
   [Serializable]

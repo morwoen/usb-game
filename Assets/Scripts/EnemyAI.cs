@@ -12,6 +12,8 @@ public class EnemyAI : MonoBehaviour
 
   private SpriteRenderer sprite;
 
+  private Tween movement;
+
   private Map.Node node;
   private Map.Node prevNode;
   public Map.Node Node
@@ -33,9 +35,14 @@ public class EnemyAI : MonoBehaviour
     sprite = GetComponentInChildren<SpriteRenderer>();
   }
 
+  private void OnDisable() {
+    movement?.Kill();
+  }
+
   void MoveToNextNode() {
     if (node.playerIsOnNode) {
-      Debug.Log("DEATH");
+      TransitionManager.Lose();
+      return;
     }
 
     List<Map.Node> targets = node.links.Where(n => {
@@ -66,7 +73,7 @@ public class EnemyAI : MonoBehaviour
 
     Node = target;
 
-    transform.DOPath(path, moveSpeed, gizmoColor: Color.red)
+    movement = transform.DOPath(path, moveSpeed, gizmoColor: Color.red)
       .SetSpeedBased()
       .SetEase(Ease.Linear)
       .SetDelay(waitOnNode)

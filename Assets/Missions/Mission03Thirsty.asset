@@ -18,5 +18,5 @@ MonoBehaviour:
   - goals:
     - type: 0
       message: Disable the Water Dispenser
-      targetType: 5
+      targetType: 4
       numberOfTargets: 0

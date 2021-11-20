@@ -18,5 +18,6 @@ MonoBehaviour:
   - goals:
     - type: 0
       message: Lock door
-      targetType: 4
+      targetType: 3
       numberOfTargets: 0
+  impossible: 1

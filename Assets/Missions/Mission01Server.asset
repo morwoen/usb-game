@@ -18,5 +18,5 @@ MonoBehaviour:
   - goals:
     - type: 0
       message: Hack the server
-      targetType: 3
+      targetType: 2
       numberOfTargets: 0
