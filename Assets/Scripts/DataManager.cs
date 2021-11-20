@@ -71,4 +71,24 @@ public class DataManager : MonoBehaviour
     Load();
     Instance.progress.CompleteMission(mission);
   }
+
+  public static float GetSoundVolume() {
+    Load();
+    return Instance.progress.soundVolume;
+  }
+
+  public static float GetMusicVolume() {
+    Load();
+    return Instance.progress.musicVolume;
+  }
+
+  public static void SetSoundVolume(float value) {
+    Load();
+    Instance.progress.soundVolume = value;
+  }
+
+  public static void SetMusicVolume(float value) {
+    Load();
+    Instance.progress.musicVolume = value;
+  }
 }

@@ -11,6 +11,8 @@ public class Progress : ScriptableObject, ISerializationCallbackReceiver
   private MissionDatabase database;
 
   public List<MissionData> missionDatas = new List<MissionData>();
+  public float musicVolume = 1;
+  public float soundVolume = 1;
 
   private void OnEnable() {
 #if UNITY_EDITOR

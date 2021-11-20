@@ -18,12 +18,14 @@ public class TransitionManager : MonoBehaviour
   private bool isTransitioning;
   private bool initial;
   private Tween currentAnimation;
+  private Color textColor = new Color(1, 0.414f, 0.175f);
 
   private void Awake() {
     instance = this;
     isTransitioning = true;
     initial = true;
     background.color = Color.black;
+    text.color = textColor;
 
     MissionManager.ProgressReport progressReport = MissionManager.GetProgressReport();
     string txt = $"There are {progressReport.totalMissions} ways a virus can terminate a company\n";
@@ -39,7 +41,7 @@ public class TransitionManager : MonoBehaviour
     // Fade the transition
     currentAnimation = DOTween.Sequence()
       .AppendInterval(5)
-      .Append(DOTween.ToAlpha(() => Color.white, (c) => text.color = c, 0, 1))
+      .Append(DOTween.ToAlpha(() => textColor, (c) => text.color = c, 0, 1))
       .Append(DOTween.ToAlpha(() => Color.black, (c) => background.color = c, 0, 1))
       .OnComplete(() => {
         isTransitioning = false;
@@ -63,7 +65,7 @@ public class TransitionManager : MonoBehaviour
     isTransitioning = true;
     Sequence seq = DOTween.Sequence()
       .Append(DOTween.ToAlpha(() => Color.black, (c) => background.color = c, 1, 1))
-      .Append(DOTween.ToAlpha(() => Color.white, (c) => text.color = c, 1, 1))
+      .Append(DOTween.ToAlpha(() => text.color, (c) => text.color = c, 1, 1))
       .AppendInterval(5)
       .OnComplete(() => {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
