@@ -7,6 +7,18 @@ public class Roomba : MonoBehaviour
   [SerializeField]
   private Canvas canvas;
 
+  private int level;
+  public int Level {
+    get { return level; }
+    set
+    {
+      level = value;
+      if (node != null) {
+        node.level = value;
+      }
+    }
+  }
+
   private Map.Node node;
   private PlayerController player;
   private SpriteRenderer spriteRenderer;
@@ -60,7 +72,7 @@ public class Roomba : MonoBehaviour
   }
 
   private void OnEnable() {
-    node = new Map.Node(Map.Node.NodeType.Roomba);
+    node = new Map.Node(Map.Node.NodeType.Roomba, level);
     player = FindObjectOfType<PlayerController>();
     spriteRenderer = GetComponentInChildren<SpriteRenderer>();
   }

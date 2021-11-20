@@ -57,7 +57,7 @@ public class TransitionManager : MonoBehaviour
       initial = false;
       isTransitioning = false;
       background.color = new Color(0, 0, 0, 0);
-      text.color = new Color(1, 1, 1, 0);
+      text.color = new Color(textColor.r, textColor.g, textColor.b, 0);
     }
   }
 

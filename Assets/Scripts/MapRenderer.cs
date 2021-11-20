@@ -58,7 +58,11 @@ public class MapRenderer : MonoBehaviour
     map.ceilings.ForEach(vec => groundTilemap.SetTile(vec, tiles[ceilingTileIndex]));
 
     // Spawn roombas
-    map.roombas.ForEach(vec => Instantiate(roombaPrefab, wallsTilemap.CellToWorld(vec), Quaternion.identity, nodeParent));
+    map.roombas.ForEach(vec => {
+      int level = vec.z;
+      Roomba roomba = Instantiate(roombaPrefab, wallsTilemap.CellToWorld(vec), Quaternion.identity, nodeParent).GetComponent<Roomba>();
+      roomba.Level = level;
+    });
 
     Map.Node cursor = map.CurrentNode;
     toBeVisited = new Stack<Map.Node>();

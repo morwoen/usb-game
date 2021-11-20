@@ -66,10 +66,7 @@ public class EnemyAI : MonoBehaviour
       target = prevNode;
     }
 
-    // TODO: Generate path like the player ones
-    Vector3[] path = new Vector3[] {
-      target.position
-    };
+    Vector3[] path = Utils.GeneratePath(Node, target).ToArray();
 
     Node = target;
 

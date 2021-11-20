@@ -44,11 +44,11 @@ TagManager:
   - name: Blackground
     uniqueID: 2496458245
     locked: 0
-  - name: Player
-    uniqueID: 2151601323
-    locked: 0
   - name: Foreground
     uniqueID: 1938806281
+    locked: 0
+  - name: Player
+    uniqueID: 2151601323
     locked: 0
   - name: FogOfWar
     uniqueID: 3971095677

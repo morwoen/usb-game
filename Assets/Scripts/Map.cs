@@ -53,6 +53,8 @@ public class Map
     this.roombas = roombas;
     this.nodes = nodes;
     this.debug = debug;
+
+    nodes.ForEach(n => n.map = this);
   }
 
   public void FollowLink(Node node) {
@@ -61,7 +63,6 @@ public class Map
     this.currentNode.playerIsOnNode = true;
   }
 
-  [Serializable]
   public class Node
   {
     public enum NodeType
@@ -74,6 +75,8 @@ public class Map
       CoffeeMachine,
       Roomba,
     }
+
+    public Map map;
 
     public List<Node> links
     {
@@ -91,6 +94,12 @@ public class Map
     {
       get;
       private set;
+    }
+
+    public int level
+    {
+      get;
+      set;
     }
 
     [SerializeField]
@@ -122,21 +131,23 @@ public class Map
       position = pos;
     }
 
-    public Node(NodeType type, Vector3Int tilemapPosition, Tilemap tilemap) {
+    public Node(NodeType type, Vector3Int tilemapPosition, Tilemap tilemap, int level) {
       this.Type = type;
       this.tilemapPosition = tilemapPosition;
       this.position = tilemap.CellToWorld(tilemapPosition);
       this.links = new List<Node>();
       this.isKnown = false;
+      this.level = level;
     }
 
-    public Node(NodeType type) {
+    public Node(NodeType type, int level) {
       if (type != NodeType.Roomba) {
         throw new Exception("Use the other constructor for non-roomba nodes");
       }
       this.Type = type;
       this.isKnown = false;
       this.links = new List<Node>();
+      this.level = level;
     }
   }
 }

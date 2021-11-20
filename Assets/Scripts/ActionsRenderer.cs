@@ -6,7 +6,7 @@ using TMPro;
 public class ActionsRenderer : MonoBehaviour
 {
   [SerializeField]
-  private TextMeshProUGUI text;
+  private TextMeshProWithBackground text;
   [SerializeField]
   private RectTransform background;
 
@@ -26,9 +26,6 @@ public class ActionsRenderer : MonoBehaviour
       });
 
       text.SetText(txt);
-      text.ForceMeshUpdate();
-      background.sizeDelta = new Vector2(text.preferredWidth, text.preferredHeight);
-      background.anchoredPosition = new Vector2(text.preferredWidth / 2, - text.preferredHeight / 2);
     }
   }
 

@@ -12,17 +12,20 @@ public class MapGenerator
   private int seed;
   private Tilemap tilemap;
 
-  public static int levels {
+  public static int levels
+  {
     get;
     private set;
   } = 5;
 
-  public static int buildingWidth {
+  public static int buildingWidth
+  {
     get;
     private set;
   } = 34;
 
-  public static int ceilingHeight {
+  public static int ceilingHeight
+  {
     get;
     private set;
   } = 6;
@@ -84,7 +87,7 @@ public class MapGenerator
 
       // Should spawn a roomba
       if (Random.Range(0, 101) < roombaChancePerFloor) {
-        roombas.Add(new Vector3Int(0, yOffset, 0));
+        roombas.Add(new Vector3Int(0, yOffset, level));
       }
 
       // generate rooms
@@ -94,7 +97,8 @@ public class MapGenerator
         root = new Map.Node(
           Map.Node.NodeType.Desk,
           new Vector3Int(deskPosition, 1, 0),
-          tilemap
+          tilemap,
+          level
         );
         nodes.Add(root);
         previousLevel = new List<Map.Node>();
@@ -115,7 +119,8 @@ public class MapGenerator
         Map.Node door = new Map.Node(
           Map.Node.NodeType.Door,
           new Vector3Int(-buildingHalfWidth + leftRoomSize, yOffset + 1, 0),
-          tilemap
+          tilemap,
+          level
         );
         nodes.Add(door);
 
@@ -127,7 +132,8 @@ public class MapGenerator
         server = new Map.Node(
           Map.Node.NodeType.Server,
           new Vector3Int(-buildingHalfWidth + xOffset + Mathf.FloorToInt(serverRoomSize / 2), yOffset + 1, 0),
-          tilemap
+          tilemap,
+          level
         );
         nodes.Add(server);
 
@@ -135,7 +141,8 @@ public class MapGenerator
         Map.Node ceoComputer = new Map.Node(
           Map.Node.NodeType.CEODesk,
           new Vector3Int(-buildingHalfWidth + xOffset + Mathf.FloorToInt(ceoOfficeWidth / 2), yOffset + 1, 0),
-          tilemap
+          tilemap,
+          level
         );
         nodes.Add(ceoComputer);
 
@@ -199,7 +206,8 @@ public class MapGenerator
             Map.Node node = new Map.Node(
               Map.Node.NodeType.Desk,
               new Vector3Int(nodeGlobalOffset, yOffset + 1, 0),
-              tilemap
+              tilemap,
+              level
             );
             nodes.Add(node);
 
@@ -221,7 +229,7 @@ public class MapGenerator
             if (nodeIndex == 0 && door != null) {
               node.links.Add(door);
               door.links.Add(node);
-              
+
               if (debugging) {
                 Debug.DrawLine(door.position, node.position, Color.red, 60);
               }
@@ -246,7 +254,8 @@ public class MapGenerator
                   Map.Node coffeeMachine = new Map.Node(
                     Map.Node.NodeType.CoffeeMachine,
                     new Vector3Int(coffeeMachineGlobalOffset, yOffset + 2, 0),
-                    tilemap
+                    tilemap,
+                    level
                   );
                   nodes.Add(coffeeMachine);
 
@@ -268,7 +277,8 @@ public class MapGenerator
                   Map.Node waterDispenser = new Map.Node(
                     Map.Node.NodeType.WaterDispenser,
                     new Vector3Int(waterDispenserGlobalOffset, yOffset + 2, 0),
-                    tilemap
+                    tilemap,
+                    level
                   );
                   nodes.Add(waterDispenser);
 
@@ -289,7 +299,8 @@ public class MapGenerator
             door = new Map.Node(
               Map.Node.NodeType.Door,
               new Vector3Int(roomGlobalOffset + roomSize + 1, yOffset + 1, 0),
-              tilemap
+              tilemap,
+              level
             );
             nodes.Add(door);
 
@@ -297,7 +308,7 @@ public class MapGenerator
               Map.Node finalNodeInLastRoom = nodeOnLevel[nodeOnLevel.Count - 1];
               door.links.Add(finalNodeInLastRoom);
               finalNodeInLastRoom.links.Add(door);
-              
+
               if (debugging) {
                 debug.Add(door.tilemapPosition);
                 Debug.DrawLine(door.position, finalNodeInLastRoom.position, Color.red, 60);

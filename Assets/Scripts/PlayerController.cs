@@ -75,7 +75,7 @@ public class PlayerController : MonoBehaviour
     UpdateNavigationLines();
     Navigation();
 
-    if (!Interaction.IsInteracting) {
+    if (!Interaction.IsInteracting && !IsMoving) {
       bool networkUndiscovered = map.CurrentNode.links.FirstOrDefault(node => !node.isKnown) != null;
       for (int key = (int)KeyCode.Alpha1; key < (int)KeyCode.Alpha9; key++) {
         if (Input.GetKeyDown((KeyCode)key)) {
@@ -96,10 +96,6 @@ public class PlayerController : MonoBehaviour
           }
         }
       }
-    }
-
-    if (Input.GetKeyDown(KeyCode.X) && Input.GetKeyDown(KeyCode.LeftControl)) {
-      DataManager.Clear();
     }
   }
 
@@ -141,11 +137,7 @@ public class PlayerController : MonoBehaviour
 
       if (Input.GetMouseButtonDown(0)) {
         Interaction.Interrupt();
-        // TODO: generate an interesting path
-        Vector3[] path = new Vector3[] {
-          minTarget.position
-        };
-        Move(path);
+        Move(Utils.GeneratePath(map.CurrentNode, minTarget).ToArray());
         map.FollowLink(minTarget);
       }
     }
