@@ -80,11 +80,13 @@ public class PlayerController : MonoBehaviour
       for (int key = (int)KeyCode.Alpha1; key < (int)KeyCode.Alpha9; key++) {
         if (Input.GetKeyDown((KeyCode)key)) {
           if (key == (int)KeyCode.Alpha1 && networkUndiscovered) {
+            FindObjectOfType<TutorialManager>()?.OnInteract();
             // Discover network
             Interaction.Interact(networkDiscoveryInteractionTime, didComplete => {
               if (didComplete) {
                 map.CurrentNode.links.ForEach(node => node.isKnown = true);
                 actionsRenderer.UpdateActions(map);
+                FindObjectOfType<TutorialManager>()?.OnAfterInteract();
               }
             });
           } else {
@@ -192,10 +194,24 @@ public class PlayerController : MonoBehaviour
   void OnTweenComplete() {
     IsMoving = false;
     actionsRenderer.UpdateActions(map);
+
+    bool isOnIot = map.CurrentNode.Type == Map.Node.NodeType.Door ||
+      map.CurrentNode.Type == Map.Node.NodeType.CoffeeMachine ||
+      map.CurrentNode.Type == Map.Node.NodeType.Roomba ||
+      map.CurrentNode.Type == Map.Node.NodeType.WaterDispenser;
+    if (isOnIot) {
+      FindObjectOfType<TutorialManager>()?.OnIotDevice();
+    }
+
+    List<Mission.Goal> possibleActions = MissionManager.GetInteractions(map.CurrentNode);
+    if (possibleActions.Count > 0) {
+      FindObjectOfType<TutorialManager>()?.OnNodeWithMissions();
+    }
   }
 
   void Move(Vector3[] path) {
     IsMoving = true;
+    FindObjectOfType<TutorialManager>()?.OnMove();
     actionsRenderer.HideActions();
     transform.DOPath(path, speed, gizmoColor: Color.red)
       .SetSpeedBased()

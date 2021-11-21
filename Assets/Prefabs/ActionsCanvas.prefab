@@ -264,6 +264,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   text: {fileID: 442603211063767602}
   background: {fileID: 442603211595541145}
+  autoInit: 0
+  centered: 0
 --- !u!1 &442603211595541146
 GameObject:
   m_ObjectHideFlags: 0
@@ -323,7 +325,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.1981132, g: 0.18409576, b: 0.18409576, a: 0.34117648}
+  m_Color: {r: 0.2, g: 0.18431373, b: 0.18431373, a: 0.4745098}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

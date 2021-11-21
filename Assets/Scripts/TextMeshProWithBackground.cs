@@ -8,10 +8,12 @@ public class TextMeshProWithBackground : MonoBehaviour
   [SerializeField]
   private RectTransform background;
   [SerializeField]
-  private bool initOnAwake = false;
+  private bool autoInit = false;
+  [SerializeField]
+  private bool centered = false;
 
-  private void Awake() {
-    if (initOnAwake) {
+  private void OnEnable() {
+    if (autoInit) {
       SetText(text.text);
     }
   }
@@ -20,6 +22,10 @@ public class TextMeshProWithBackground : MonoBehaviour
     text.SetText(txt);
     text.ForceMeshUpdate();
     background.sizeDelta = new Vector2(text.preferredWidth, text.preferredHeight);
-    background.anchoredPosition = new Vector2(text.preferredWidth / 2, -text.preferredHeight / 2);
+    if (centered) {
+      background.anchoredPosition = new Vector2(0, 0);
+    } else {
+      background.anchoredPosition = new Vector2(text.preferredWidth / 2, -text.preferredHeight / 2);
+    }
   }
 }

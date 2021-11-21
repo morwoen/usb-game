@@ -47,7 +47,7 @@ public class Utils
         
         // Any door node on the level below as it signifies a wall
         start.map.nodes
-          .Where(n => n.Type == Map.Node.NodeType.Door && n.level == l - 1)
+          .Where(n => n.Type == Map.Node.NodeType.Door && n.level == l)
           .ToList()
           .ForEach(n => {
             possiblePathsUp.Add(n.position.x);
