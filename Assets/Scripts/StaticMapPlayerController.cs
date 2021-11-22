@@ -4,12 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-
-public class PlayerController : BasePlayerController
+public class StaticMapPlayerController : BasePlayerController
 {
   protected override void RegenerateMap() {
-    MapGenerator generator = new MapGenerator(mapRenderer.WallsTilemap);
-    map = generator.Generate();
+    MapParser parser = new MapParser(mapRenderer.WallsTilemap);
+    map = parser.Parse();
     mapRenderer.Render(map);
     MissionManager.PopulateMissions(map);
     actionsRenderer.UpdateActions(map);

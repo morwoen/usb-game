@@ -100,24 +100,25 @@ public class MapRenderer : MonoBehaviour
     }
 
     // render server room
-    int serverLevel = map.ServerNode.level;
-    Map.Node doorOnServerLevel = map.nodes.First(n => n.level == serverLevel && n.Type == Map.Node.NodeType.Door);
-    int leftPoint;
-    int rightPoint;
-    if (doorOnServerLevel.tilemapPosition.x > map.ServerNode.tilemapPosition.x) {
-      leftPoint = -MapGenerator.buildingWidth / 2;
-      rightPoint = doorOnServerLevel.tilemapPosition.x;
-    } else {
-      leftPoint = doorOnServerLevel.tilemapPosition.x;
-      rightPoint = MapGenerator.buildingWidth / 2;
-    }
-    int serverYOffset = map.ServerNode.level * (MapGenerator.ceilingHeight + 1);
-    for (int x = leftPoint; x < rightPoint; x++) {
-      for (int y = 0; y < MapGenerator.ceilingHeight; y++) {
-        backgroundTilemap.SetTile(new Vector3Int(x, y + serverYOffset, 0), tiles[Random.Range(0, 2) == 0 ? serverRoomTile1Index : serverRoomTile2Index]);
+    if (map.ServerNode != null) {
+      int serverLevel = map.ServerNode.level;
+      Map.Node doorOnServerLevel = map.nodes.FirstOrDefault(n => n.level == serverLevel && n.Type == Map.Node.NodeType.Door);
+      int leftPoint;
+      int rightPoint;
+      if (doorOnServerLevel.tilemapPosition.x > map.ServerNode.tilemapPosition.x) {
+        leftPoint = -MapGenerator.buildingWidth / 2;
+        rightPoint = doorOnServerLevel.tilemapPosition.x;
+      } else {
+        leftPoint = doorOnServerLevel.tilemapPosition.x;
+        rightPoint = MapGenerator.buildingWidth / 2;
+      }
+      int serverYOffset = map.ServerNode.level * (MapGenerator.ceilingHeight + 1);
+      for (int x = leftPoint; x < rightPoint; x++) {
+        for (int y = 0; y < MapGenerator.ceilingHeight; y++) {
+          backgroundTilemap.SetTile(new Vector3Int(x, y + serverYOffset, 0), tiles[Random.Range(0, 2) == 0 ? serverRoomTile1Index : serverRoomTile2Index]);
+        }
       }
     }
-
 
     // Spawn roombas
     map.roombas.ForEach(vec => {
@@ -178,11 +179,13 @@ public class MapRenderer : MonoBehaviour
       }
     }
 
-    EnemyAI enemy = Instantiate(enemyAiPrefab, wallsTilemap.CellToWorld(map.ServerNode.tilemapPosition), Quaternion.identity, nodeParent).GetComponent<EnemyAI>();
-    enemy.Node = map.ServerNode;
+    if (map.ServerNode != null) {
+      EnemyAI enemy = Instantiate(enemyAiPrefab, wallsTilemap.CellToWorld(map.ServerNode.tilemapPosition), Quaternion.identity, nodeParent).GetComponent<EnemyAI>();
+      enemy.Node = map.ServerNode;
 
-    foreach (var node in map.debug) {
-      wallsTilemap.SetTile(node, tiles[debugIndex]);
+      foreach (var node in map.debug) {
+        wallsTilemap.SetTile(node, tiles[debugIndex]);
+      }
     }
   }
 }

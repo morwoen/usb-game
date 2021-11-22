@@ -42,7 +42,7 @@ public class Map
   }
   public Node ServerNode
   {
-    get { return nodes.First(n => n.Type == Node.NodeType.Server); }
+    get { return nodes.FirstOrDefault(n => n.Type == Node.NodeType.Server); }
   }
 
   public Map(Node root, List<Node> nodes, List<Vector3Int> walls, List<Vector3Int> ceilings, List<Vector3Int> roombas, List<Vector3Int> debug) {
