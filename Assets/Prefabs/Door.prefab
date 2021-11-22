@@ -240,7 +240,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 1950600529052080373}
   alwaysShow: 1
-  sprite: {fileID: 1950600529052080373}
+  spriteOpen: {fileID: 7802731929974963430, guid: 2723abdd4f1deba458d7b55e11440900, type: 3}
+  spriteClosed: {fileID: -5587051963962242048, guid: 2723abdd4f1deba458d7b55e11440900, type: 3}
 --- !u!1 &2865244749341178755
 GameObject:
   m_ObjectHideFlags: 0

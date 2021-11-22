@@ -1,4 +1,4 @@
-using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -56,6 +56,8 @@ public class MapRenderer : MonoBehaviour
   private int backgroundFloorTileIndex = 2;
   private int backgroundTileIndex = 0;
   private int backgroundCeilingTileIndex = 1;
+  private int serverRoomTile1Index = 7;
+  private int serverRoomTile2Index = 8;
 
   private int debugIndex = 6;
 
@@ -96,6 +98,26 @@ public class MapRenderer : MonoBehaviour
         }
       }
     }
+
+    // render server room
+    int serverLevel = map.ServerNode.level;
+    Map.Node doorOnServerLevel = map.nodes.First(n => n.level == serverLevel && n.Type == Map.Node.NodeType.Door);
+    int leftPoint;
+    int rightPoint;
+    if (doorOnServerLevel.tilemapPosition.x > map.ServerNode.tilemapPosition.x) {
+      leftPoint = -MapGenerator.buildingWidth / 2;
+      rightPoint = doorOnServerLevel.tilemapPosition.x;
+    } else {
+      leftPoint = doorOnServerLevel.tilemapPosition.x;
+      rightPoint = MapGenerator.buildingWidth / 2;
+    }
+    int serverYOffset = map.ServerNode.level * (MapGenerator.ceilingHeight + 1);
+    for (int x = leftPoint; x < rightPoint; x++) {
+      for (int y = 0; y < MapGenerator.ceilingHeight; y++) {
+        backgroundTilemap.SetTile(new Vector3Int(x, y + serverYOffset, 0), tiles[Random.Range(0, 2) == 0 ? serverRoomTile1Index : serverRoomTile2Index]);
+      }
+    }
+
 
     // Spawn roombas
     map.roombas.ForEach(vec => {

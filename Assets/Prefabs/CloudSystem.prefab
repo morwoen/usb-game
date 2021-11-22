@@ -47,7 +47,7 @@ MonoBehaviour:
   destroyPosition: {fileID: 8403139461297988312}
   spawnInterval: 0.5
   scaleRange: {x: 1, y: 2}
-  speedRange: {x: 1, y: 5}
+  speedRange: {x: 0.5, y: 2}
   prefabs:
   - {fileID: 2049398344371305512, guid: e7840f5c53263124eba75f3683207170, type: 3}
   - {fileID: 2049398344371305512, guid: 247c0acb8c06a4d4caf6c7837f3ebaf9, type: 3}

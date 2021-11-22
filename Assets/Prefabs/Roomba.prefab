@@ -310,6 +310,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 3327469681494514323}
+  spriteLeft: {fileID: -3593194614573140362, guid: 2723abdd4f1deba458d7b55e11440900, type: 3}
+  spriteRight: {fileID: -227415168419254684, guid: 2723abdd4f1deba458d7b55e11440900, type: 3}
 --- !u!50 &3327469682044672354
 Rigidbody2D:
   serializedVersion: 4

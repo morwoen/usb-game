@@ -5,13 +5,17 @@ using UnityEngine;
 public class Door : NodeHolder
 {
   [SerializeField]
-  private SpriteRenderer sprite;
+  private Sprite spriteOpen;
+  [SerializeField]
+  private Sprite spriteClosed;
 
   private void OnTriggerEnter2D(Collider2D collision) {
-    //sprite.enabled = false;
+    spriteRenderer.sprite = spriteOpen;
+    spriteRenderer.transform.localPosition = new Vector3(-0.5f, 0.5f);
   }
 
   private void OnTriggerExit2D(Collider2D collision) {
-    //sprite.enabled = Node.isKnown;
+    spriteRenderer.sprite = spriteClosed;
+    spriteRenderer.transform.localPosition = new Vector3(0, 0.5f);
   }
 }

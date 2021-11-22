@@ -29,6 +29,8 @@ public class PlayerController : MonoBehaviour
   private AnimationCurve directionLineWidthCurveSelected;
   [SerializeField]
   private AnimationCurve directionLineWidthCurveDeselected;
+  [SerializeField]
+  private ParticleSystem[] movementEffects;
 
   private bool isMoving = false;
   private List<LineRenderer> lineRenderers;
@@ -70,6 +72,20 @@ public class PlayerController : MonoBehaviour
   private void Update() {
     if (TransitionManager.IsTransitioning()) {
       return;
+    }
+
+    if (IsMoving) {
+      foreach (ParticleSystem movementEffect in movementEffects) {
+        if (movementEffect.isStopped) {
+          movementEffect.Play();
+        }
+      }
+    } else {
+      foreach (ParticleSystem movementEffect in movementEffects) {
+        if (movementEffect.isPlaying) {
+          movementEffect.Stop();
+        }
+      }
     }
 
     UpdateNavigationLines();

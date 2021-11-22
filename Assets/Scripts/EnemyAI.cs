@@ -9,10 +9,15 @@ public class EnemyAI : MonoBehaviour
   private float waitOnNode = 3f;
   [SerializeField]
   private float moveSpeed = 5f;
-
-  private SpriteRenderer sprite;
+  [SerializeField]
+  private ParticleSystem enemyEffect;
+  [SerializeField]
+  private ParticleSystem[] movementEffects;
+  [SerializeField]
+  private TrailRenderer trail;
 
   private Tween movement;
+  private bool moving = false;
 
   private Map.Node node;
   private Map.Node prevNode;
@@ -31,15 +36,53 @@ public class EnemyAI : MonoBehaviour
     }
   }
 
-  private void OnEnable() {
-    sprite = GetComponentInChildren<SpriteRenderer>();
-  }
-
   private void OnDisable() {
     movement?.Kill();
   }
 
+  private void Update() {
+    bool shouldShow = false;
+    if (moving) {
+      shouldShow = node?.isKnown == true;
+    } else {
+      shouldShow = prevNode?.isKnown == true;
+    }
+
+    trail.enabled = shouldShow;
+    if (shouldShow) {
+      if (enemyEffect.isStopped) {
+        enemyEffect.Play();
+      }
+
+      if (moving) {
+        foreach (ParticleSystem movementEffect in movementEffects) {
+          if (movementEffect.isStopped) {
+            movementEffect.Play();
+          }
+        }
+      } else {
+        foreach (ParticleSystem movementEffect in movementEffects) {
+          if (movementEffect.isPlaying) {
+            movementEffect.Stop();
+          }
+        }
+      }
+    } else {
+      if (enemyEffect.isPlaying) {
+        enemyEffect.Stop();
+      }
+
+      foreach (ParticleSystem movementEffect in movementEffects) {
+        if (movementEffect.isPlaying) {
+          movementEffect.Stop();
+        }
+      }
+    }
+  }
+
   void MoveToNextNode() {
+    moving = false;
+
     if (node.playerIsOnNode) {
       TransitionManager.Lose();
       return;
@@ -74,11 +117,7 @@ public class EnemyAI : MonoBehaviour
       .SetSpeedBased()
       .SetEase(Ease.Linear)
       .SetDelay(waitOnNode)
-      .OnPlay(AfterWait)
+      .OnPlay(() => moving = true)
       .OnComplete(MoveToNextNode);
-  }
-
-  void AfterWait() {
-    sprite.enabled = node.isKnown;
   }
 }

@@ -6,6 +6,10 @@ public class Roomba : MonoBehaviour
 {
   [SerializeField]
   private Canvas canvas;
+  [SerializeField]
+  private Sprite spriteLeft;
+  [SerializeField]
+  private Sprite spriteRight;
 
   private int level;
   public int Level {
@@ -47,9 +51,11 @@ public class Roomba : MonoBehaviour
         if (Input.GetKey(KeyCode.A)) {
           playerHasMoved = true;
           transform.Translate(Vector3.left * Time.deltaTime * withPlayerSpeed);
+          spriteRenderer.sprite = spriteLeft;
         } else if (Input.GetKey(KeyCode.D)) {
           playerHasMoved = true;
           transform.Translate(Vector3.right * Time.deltaTime * withPlayerSpeed);
+          spriteRenderer.sprite = spriteRight;
         }
 
         if (playerHasMoved && canvas.gameObject.activeSelf) {
@@ -65,8 +71,10 @@ public class Roomba : MonoBehaviour
 
       if (movingRight) {
         transform.Translate(Vector3.right * Time.deltaTime * speed);
+        spriteRenderer.sprite = spriteRight;
       } else {
         transform.Translate(Vector3.left * Time.deltaTime * speed);
+        spriteRenderer.sprite = spriteLeft;
       }
     }
   }
