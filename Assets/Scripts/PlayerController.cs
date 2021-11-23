@@ -1,4 +1,7 @@
 using DG.Tweening;
+using DG.Tweening.Core;
+using DG.Tweening.Plugins.Core.PathCore;
+using DG.Tweening.Plugins.Options;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,12 +10,9 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-  public Progress progress;
-  
   [SerializeField]
-  private float speed = 12f;
+  internal float speed = 12f;
   private float directionIndicatorDetectionAngle = 30f;
-
 
   [SerializeField]
   private float networkDiscoveryInteractionTime = 2f;
@@ -35,8 +35,9 @@ public class PlayerController : MonoBehaviour
   private bool isMoving = false;
   private List<LineRenderer> lineRenderers;
   private MapRenderer mapRenderer;
-  private Map map;
+  internal Map map;
   private ActionsRenderer actionsRenderer;
+  private Tweener movement;
 
   public bool IsMoving {
     get { return isMoving; }
@@ -61,7 +62,7 @@ public class PlayerController : MonoBehaviour
     transform.position = map.CurrentNode.position;
   }
 
-  private void RegenerateMap() {
+  public virtual void RegenerateMap() {
     MapGenerator generator = new MapGenerator(mapRenderer.WallsTilemap);
     map = generator.Generate();
     mapRenderer.Render(map);
@@ -154,11 +155,15 @@ public class PlayerController : MonoBehaviour
       lineRenderers[minIndex].widthCurve = directionLineWidthCurveSelected;
 
       if (Input.GetMouseButtonDown(0)) {
-        Interaction.Interrupt();
-        Move(Utils.GeneratePath(map.CurrentNode, minTarget).ToArray());
-        map.FollowLink(minTarget);
+        NavigateBetween(map.CurrentNode, minTarget);
       }
     }
+  }
+
+  internal void NavigateBetween(Map.Node origin, Map.Node destination) {
+    Interaction.Interrupt();
+    Move(Utils.GeneratePath(origin, destination).ToArray());
+    map.FollowLink(destination);
   }
 
   void UpdateNavigationLines() {
@@ -209,7 +214,9 @@ public class PlayerController : MonoBehaviour
 
   void OnTweenComplete() {
     IsMoving = false;
-    actionsRenderer.UpdateActions(map);
+    actionsRenderer?.UpdateActions(map);
+
+    map.CurrentNode.playerIsOnNode = true;
 
     bool isOnIot = map.CurrentNode.Type == Map.Node.NodeType.Door ||
       map.CurrentNode.Type == Map.Node.NodeType.CoffeeMachine ||
@@ -228,8 +235,9 @@ public class PlayerController : MonoBehaviour
   void Move(Vector3[] path) {
     IsMoving = true;
     FindObjectOfType<TutorialManager>()?.OnMove();
-    actionsRenderer.HideActions();
-    transform.DOPath(path, speed, gizmoColor: Color.red)
+    actionsRenderer?.HideActions();
+    movement?.Kill();
+    movement = transform.DOPath(path, speed, gizmoColor: Color.red)
       .SetSpeedBased()
       .SetEase(Ease.Linear)
       .OnComplete(OnTweenComplete);

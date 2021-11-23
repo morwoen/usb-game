@@ -322,6 +322,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 0}
+  alwaysShow: 0
 --- !u!114 &4422604775589668926
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -27,6 +27,8 @@ public class MissionManager : MonoBehaviour
   public static List<Mission.Goal> GetInteractions(Map.Node node) {
     Load();
 
+    if (!instance) return new List<Mission.Goal>();
+
     List<Mission.Goal> goals = new List<Mission.Goal>();
     foreach (Mission mission in instance.database.missions) {
       if (mission.impossible) continue;

@@ -122,7 +122,7 @@ public class MapRenderer : MonoBehaviour
     // Spawn roombas
     map.roombas.ForEach(vec => {
       int level = vec.z;
-      Roomba roomba = Instantiate(roombaPrefab, wallsTilemap.CellToWorld(vec), Quaternion.identity, nodeParent).GetComponent<Roomba>();
+      Roomba roomba = Instantiate(roombaPrefab, wallsTilemap.CellToWorld(vec) + 0.25f * Vector3.up, Quaternion.identity, nodeParent).GetComponent<Roomba>();
       roomba.Level = level;
     });
 

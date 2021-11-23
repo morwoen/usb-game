@@ -60,7 +60,6 @@ public class Map
   public void FollowLink(Node node) {
     this.currentNode.playerIsOnNode = false;
     this.currentNode = node;
-    this.currentNode.playerIsOnNode = true;
   }
 
   public class Node

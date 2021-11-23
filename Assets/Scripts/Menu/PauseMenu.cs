@@ -11,11 +11,14 @@ public class PauseMenu : MonoBehaviour
   private GameObject pauseMenu;
   [SerializeField]
   private GameObject settingsMenu;
+  [SerializeField]
+  private GameObject settingsMenuBackground;
 
   private bool isPaused = false;
 
   private void Awake() {
     settingsMenu.SetActive(false);
+    settingsMenuBackground.SetActive(false);
     isPaused = true;
     ToggleMenu();
   }
@@ -43,10 +46,12 @@ public class PauseMenu : MonoBehaviour
   public void ShowSettings() {
     pauseMenu.SetActive(false);
     settingsMenu.SetActive(true);
+    settingsMenuBackground.SetActive(true);
   }
 
   public void HideSettings() {
     pauseMenu.SetActive(true);
     settingsMenu.SetActive(false);
+    settingsMenuBackground.SetActive(false);
   }
 }

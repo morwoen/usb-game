@@ -34,7 +34,7 @@ public class DataManager : MonoBehaviour
   }
 
   private void OnEnable() {
-    progress = FindObjectOfType<PlayerController>().progress;
+    progress = FindObjectOfType<ProgressHolder>().progress;
   }
 
   private void LoadData() {
