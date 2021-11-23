@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.01.00">
+	<object class="ParameterPreset" id="{0a98579b-be63-4d9f-a9c7-c3bd42b892ae}">
+		<property name="name">
+			<value>Antivirus</value>
+		</property>
+		<relationship name="folder">
+			<destination>{5ce01f7d-a76d-4e91-b70d-2a0337ff9302}</destination>
+		</relationship>
+		<relationship name="parameter">
+			<destination>{d22178f9-50c7-4262-94f4-43e4bb877bc0}</destination>
+		</relationship>
+	</object>
+	<object class="GameParameter" id="{d22178f9-50c7-4262-94f4-43e4bb877bc0}">
+		<property name="parameterType">
+			<value>1</value>
+		</property>
+		<property name="maximum">
+			<value>2</value>
+		</property>
+		<property name="initialValue">
+			<value>0</value>
+		</property>
+	</object>
+</objects>

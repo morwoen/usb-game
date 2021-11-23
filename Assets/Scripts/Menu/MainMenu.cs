@@ -2,6 +2,7 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using FMODUnity;
 
 public class MainMenu : MonoBehaviour
 {
@@ -17,10 +18,13 @@ public class MainMenu : MonoBehaviour
   [SerializeField]
   private GameObject quitButton;
 
+  private StudioEventEmitter backgroundMusic;
+
   private MenuPlayerController player;
 
   private void Awake() {
     player = FindObjectOfType<MenuPlayerController>();
+    backgroundMusic = FindObjectOfType<StudioEventEmitter>();
 
     SwitchToMain();
 
@@ -72,6 +76,7 @@ public class MainMenu : MonoBehaviour
 
   public void Play() {
     SceneManager.LoadScene(1);
+    backgroundMusic.SetParameter("inGame", 1);
   }
 
   public void Quit() {
