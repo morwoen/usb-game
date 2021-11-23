@@ -7,7 +7,7 @@
 [LOG] OutputWASAPI::init                       : Output buffer size: 4096 samples, latency: 0.00ms, period: 10.00ms, DSP buffer: 1024 * 4
 [LOG] Thread::initThread                       : Init FMOD stream thread. Affinity: 0x8000000000000003, Priority: 0xFFFF7FFB, Stack Size: 98304, Semaphore: No, Sleep Time: 10, Looping: Yes.
 [LOG] Thread::initThread                       : Init FMOD mixer thread. Affinity: 0x8000000000000001, Priority: 0xFFFF7FFA, Stack Size: 81920, Semaphore: No, Sleep Time: 0, Looping: Yes.
-[LOG] AsyncManager::init                       : manager 000001D63B355B28 isAsync 0 updatePeriod 0.02
+[LOG] AsyncManager::init                       : manager 0000019947710F58 isAsync 0 updatePeriod 0.02
 [LOG] AsyncManager::init                       : done
 [LOG] PlaybackSystem::init                     : 
 [LOG] Thread::initThread                       : Init FMOD Studio sample load thread. Affinity: 0x8000000000000003, Priority: 0xFFFF7FFD, Stack Size: 98304, Semaphore: No, Sleep Time: 1, Looping: No.
@@ -18,3 +18,100 @@
 [LOG] Manager::readBank                        : fileversion = 135, compatVersion = 132 (oldest = 44, newest = 135)
 [LOG] Manager::readBank                        : fileversion = 135, compatVersion = 132 (oldest = 44, newest = 135)
 [LOG] PlaybackSystem::acquireMasterBus         : Setting master channel group format to 6
+[LOG] SystemI::createSound                     : filename = FMOD/Build/Desktop/Master.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSound                     : setdata soundi = 0000019994A8DAF8 : node = 000001981D31C590
+[LOG] SystemI::createSound                     : add node to async list : head = 000001996BC7B908.  list count = 0
+[LOG] SystemI::createSound                     : filename = FMOD/Build/Desktop/Master.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0000019994A8DAF8
+[LOG] SystemI::createSoundInternal             :     Create name='FMOD/Build/Desktop/Master.bank', mode=0x02010082
+[LOG] SystemI::createSound                     : setdata soundi = 0000019994A8D948 : node = 000001981D31C6D0
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 1379360
+[LOG] SystemI::createSound                     :     add node to async list : head = 000001996BC7B908.  list count = 0
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 6624
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000001981D31C6A0
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSound                     :     filename = FMOD/Build/Desktop/Master.bank : mode 02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSound                     :     FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekposition = 8000
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSound                     :     setdata soundi = 0000019994A8CD78 : node = 000001981D31C810
+[LOG] SystemI::createSound                     :     add node to async list : head = 000001996BC7B908.  list count = 1
+[LOG] SystemI::createSound                     :     filename = FMOD/Build/Desktop/Master.bank : mode 02010082
+[LOG] SystemI::createSound                     :     FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSound                     :     setdata soundi = 0000019994A8D0D8 : node = 000001981D31C950
+[LOG] SystemI::createSound                     :     add node to async list : head = 000001996BC7B908.  list count = 2
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='usb-music-drums', format=5, channels=2, frequency=48000, lengthbytes=459872, lengthpcm=1589750, pcmblocksize=0, loopstart=0, loopend=1535999, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.975494.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0000019994A8DAF8
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0000019994A8D948
+[LOG] SystemI::createSoundInternal             :     Create name='FMOD/Build/Desktop/Master.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 1379360
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 6624
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000001981D31C7E0
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekposition = 8000
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='usb-music-lead', format=5, channels=2, frequency=48000, lengthbytes=451328, lengthpcm=1704500, pcmblocksize=0, loopstart=0, loopend=1535999, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.361084.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0000019994A8D948
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0000019994A8CD78
+[LOG] SystemI::createSoundInternal             :     Create name='FMOD/Build/Desktop/Master.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 1379360
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 6624
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000001981D31C920
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekposition = 8000
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='usb-music-bass', format=5, channels=2, frequency=48000, lengthbytes=308000, lengthpcm=1660000, pcmblocksize=0, loopstart=0, loopend=1535999, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.270264.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0000019994A8CD78
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0000019994A8D0D8
+[LOG] SystemI::createSoundInternal             :     Create name='FMOD/Build/Desktop/Master.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 1379360
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 6624
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000001981D31CA60
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekposition = 8000
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='usb-music', format=5, channels=2, frequency=48000, lengthbytes=158752, lengthpcm=1704500, pcmblocksize=0, loopstart=0, loopend=1535999, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.975006.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0000019994A8D0D8
+[LOG] SoundI::release                          : usb-music (0000019994A95628)
+[LOG] SoundI::release                          :     usb-music (000001981C430C38)
+[LOG] SoundI::release                          :     usb-music (0000019994A91458)
+[LOG] SoundI::release                          : usb-music (0000019994A8D0D8)
+[LOG] SoundI::release                          :     usb-music (000001992492F4E8)
+[LOG] SoundI::release                          :     usb-music (0000019994A8DCA8)
+[LOG] SoundI::release                          : usb-music-bass (0000019994A8CD78)
+[LOG] SoundI::release                          :     usb-music-bass (0000019924930388)
+[LOG] SoundI::release                          :     usb-music-bass (0000019994A8C358)
+[LOG] SoundI::release                          : usb-music-lead (0000019994A8D948)
+[LOG] SoundI::release                          :     usb-music-lead (000001992492F008)
+[LOG] SoundI::release                          :     usb-music-lead (0000019994A89FE8)
+[LOG] SoundI::release                          : usb-music-drums (0000019994A8DAF8)
+[LOG] SoundI::release                          :     usb-music-drums (000001992492EB28)
+[LOG] SoundI::release                          :     usb-music-drums (0000019994A889F8)
+[LOG] Thread::callback                         : FMOD Studio update thread finished.
+[LOG] Thread::callback                         : FMOD Studio bank load thread finished.
+[LOG] ProfileClient::markForDead               : Closing client connection
+[LOG] Profile::disconnectAll                   : Profiler disconnecting all clients
+[LOG] FMOD_OS_Net_Read                         : Interrupted.[LOG] ProfileClient::recvThreadLoopFunction    : Socket disconnected
+[LOG] Thread::callback                         : FMOD profiler thread (send) finished.
+[LOG] Thread::callback                         : FMOD profiler thread (recv) finished.
+[LOG] Thread::callback                         : FMOD Studio sample load thread finished.
+[LOG] LiveUpdate::release                      : 
+[LOG] LiveUpdate::reset                        : Reset connection (reason Disconnected)
+[LOG] Thread::callback                         : FMOD stream thread finished.
+[LOG] Thread::callback                         : FMOD mixer thread finished.
+[LOG] Profile::disconnectAll                   : Profiler disconnecting all clients
+[LOG] SystemI::close                           : Closed.

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using FMODUnity;
 
 public class SettingsMenu : MonoBehaviour
 {
@@ -19,7 +20,10 @@ public class SettingsMenu : MonoBehaviour
   [SerializeField]
   private TextMeshProUGUI soundText;
 
+  private StudioEventEmitter backgroundMusic;
+
   private void Awake() {
+    backgroundMusic = FindObjectOfType<StudioEventEmitter>();
     float musicVolume = DataManager.GetMusicVolume();
     float soundVolume = DataManager.GetSoundVolume();
 
@@ -28,6 +32,8 @@ public class SettingsMenu : MonoBehaviour
 
     musicText.text = VolumeToText(musicSlider.value);
     soundText.text = VolumeToText(soundSlider.value);
+
+    backgroundMusic.SetParameter("MusicVolume", musicSlider.value);
 
     // TODO: Update fmod
   }
@@ -40,7 +46,7 @@ public class SettingsMenu : MonoBehaviour
     musicText.text = VolumeToText(musicSlider.value);
     DataManager.SetMusicVolume(musicSlider.value);
 
-    // TODO: Update fmod
+    backgroundMusic.SetParameter("MusicVolume", musicSlider.value);
   }
 
   public void OnSoundChange() {
