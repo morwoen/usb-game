@@ -47,6 +47,19 @@ public class MenuPlayerController : PlayerController
     StartCoroutine(NavigateAfterDelay(currentLocationNode, root));
   }
 
+  internal override bool ShouldNavigate() {
+    if (!Input.GetMouseButtonDown(0)) return false;
+
+    var maskedAreas = FindObjectsOfType<MaskedArea>();
+    var activeMaskedAreas = FindObjectsOfType<MaskedArea>()
+      .Where(area => area.gameObject.activeSelf).ToList();
+
+    MaskedArea maskedArea = FindObjectsOfType<MaskedArea>()
+      .Where(area => area.gameObject.activeSelf)
+      .FirstOrDefault(area => area.gameObject.GetComponent<RectTransform>().rect.Contains(Input.mousePosition));
+    return maskedArea == null;
+  }
+
   IEnumerator NavigateAfterDelay(Map.Node origin, Map.Node dest) {
     yield return new WaitForSeconds(delay);
     NavigateBetween(origin, dest);

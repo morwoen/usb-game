@@ -25,6 +25,7 @@ public class MainMenu : MonoBehaviour
   private void Awake() {
     player = FindObjectOfType<MenuPlayerController>();
     backgroundMusic = FindObjectOfType<StudioEventEmitter>();
+    backgroundMusic.SetParameter("inGame", 0);
 
     SwitchToMain();
 

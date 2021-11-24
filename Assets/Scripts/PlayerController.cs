@@ -154,10 +154,14 @@ public class PlayerController : MonoBehaviour
     if (minAngle <= directionIndicatorDetectionAngle) {
       lineRenderers[minIndex].widthCurve = directionLineWidthCurveSelected;
 
-      if (Input.GetMouseButtonDown(0)) {
+      if (ShouldNavigate()) {
         NavigateBetween(map.CurrentNode, minTarget);
       }
     }
+  }
+
+  internal virtual bool ShouldNavigate() {
+    return Input.GetMouseButtonDown(0);
   }
 
   internal void NavigateBetween(Map.Node origin, Map.Node destination) {
