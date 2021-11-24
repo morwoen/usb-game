@@ -6,6 +6,7 @@ using UnityEngine.Events;
 public class MenuNode : MonoBehaviour
 {
   public bool isRoot;
+  public bool isHidden;
   public Map.Node node;
   public MenuPlayerController player;
 

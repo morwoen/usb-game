@@ -18,7 +18,7 @@ public class TransitionManager : MonoBehaviour
   private bool isTransitioning;
   private bool initial;
   private Tween currentAnimation;
-  private Color textColor = new Color(1, 0.414f, 0.175f);
+  private Color textColor = new Color(1, 0.337f, 0.968f);
 
   private void Awake() {
     instance = this;

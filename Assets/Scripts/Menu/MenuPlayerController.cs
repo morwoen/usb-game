@@ -14,7 +14,9 @@ public class MenuPlayerController : PlayerController
   }
 
   public override void RegenerateMap() {
-    List<MenuNode> menuNodes = FindObjectsOfType<MenuNode>().Where(n => n.gameObject.activeSelf).ToList();
+    List<MenuNode> menuNodes = FindObjectsOfType<MenuNode>()
+      .Where(n => n.gameObject.activeSelf)
+      .ToList();
     MenuNode rootMenuNode = menuNodes.First(n => n.isRoot);
     Map.Node root = new Map.Node(Map.Node.NodeType.Roomba, 0);
     rootMenuNode.node = root;
@@ -26,8 +28,12 @@ public class MenuPlayerController : PlayerController
       Map.Node node = new Map.Node(Map.Node.NodeType.Roomba, 0);
       node.SetPosition(new Vector3(n.transform.position.x, n.transform.position.y));
       node.isKnown = true;
-      nodes.Add(node);
-      root.links.Add(node);
+
+      if (!n.isHidden) {
+        nodes.Add(node);
+        root.links.Add(node);
+      }
+
       n.node = node;
       n.player = this;
     });
@@ -47,6 +53,8 @@ public class MenuPlayerController : PlayerController
     StartCoroutine(NavigateAfterDelay(currentLocationNode, root));
   }
 
+  // This idea didn't work
+  // leaving the code to debug after the gamejam
   internal override bool ShouldNavigate() {
     if (!Input.GetMouseButtonDown(0)) return false;
 
