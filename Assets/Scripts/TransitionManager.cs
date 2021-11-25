@@ -78,7 +78,7 @@ public class TransitionManager : MonoBehaviour
   }
 
   private void LoseGame() {
-    text.text = "You got caught\nBe more careful next time";
+    text.text = "You got caught by the Antivirus\nBe more careful next time";
     ShowTransitionAndReload();
   }
 
