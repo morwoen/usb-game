@@ -326,7 +326,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbdbd3827a0758140ac1f7267570df76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  progress: {fileID: 11400000, guid: 00ad83f72f975df429ddbc1548149c6f, type: 2}
   speed: 12
   networkDiscoveryInteractionTime: 2
   interactionTime: 5
@@ -376,6 +375,7 @@ MonoBehaviour:
   - {fileID: 2546866609541252837}
   - {fileID: 2546866609541252839}
   - {fileID: 2546866609541252835}
+  playerEffect: {fileID: 7572408597005999975}
 --- !u!96 &5638530442246014021
 TrailRenderer:
   serializedVersion: 2
@@ -5211,7 +5211,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -2143365973
   m_SortingLayer: 3
-  m_SortingOrder: 1
+  m_SortingOrder: 3
   m_RenderMode: 0
   m_SortMode: 0
   m_MinParticleSize: 0

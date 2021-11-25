@@ -14,6 +14,8 @@ public class TransitionManager : MonoBehaviour
   private Image background;
   [SerializeField]
   private TextMeshProUGUI text;
+  [SerializeField]
+  private BusAnimationManager bus;
 
   private bool isTransitioning;
   private bool initial;
@@ -35,15 +37,18 @@ public class TransitionManager : MonoBehaviour
       txt += $"You have found {progressReport.completedMissions} of them";
     }
 
-
     text.text = txt;
+    ParticleSystemRenderer playerRenderer = FindObjectOfType<PlayerController>().GetComponentInChildren<ParticleSystemRenderer>();
 
+    playerRenderer.sortingLayerName = "BusLayer";
     // Fade the transition
     currentAnimation = DOTween.Sequence()
-      .AppendInterval(5)
+      .Append(bus.GameIntro())
+      .AppendInterval(3)
       .Append(DOTween.ToAlpha(() => textColor, (c) => text.color = c, 0, 1))
       .Append(DOTween.ToAlpha(() => Color.black, (c) => background.color = c, 0, 1))
       .OnComplete(() => {
+        playerRenderer.sortingLayerName = "Player";
         isTransitioning = false;
         initial = false;
         currentAnimation = null;
@@ -58,6 +63,14 @@ public class TransitionManager : MonoBehaviour
       isTransitioning = false;
       background.color = new Color(0, 0, 0, 0);
       text.color = new Color(textColor.r, textColor.g, textColor.b, 0);
+
+      PlayerController player = FindObjectOfType<PlayerController>();
+      ParticleSystemRenderer playerRenderer = player.GetComponentInChildren<ParticleSystemRenderer>();
+      playerRenderer.sortingLayerName = "Player";
+      player.Show();
+      if (bus) {
+        Destroy(bus.gameObject);
+      }
     }
   }
 

@@ -10,6 +10,10 @@ public class CameraManager : CinemachineExtension
 
   private float orthSize;
 
+  public float SizeOfCamera {
+    get { return sizeOfCamera; }
+  }
+
   private void Start() {
     var cam = GetComponent<CinemachineVirtualCamera>();
     orthSize = sizeOfCamera * Screen.height / Screen.width * 0.5f;

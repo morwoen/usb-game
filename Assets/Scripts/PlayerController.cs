@@ -31,6 +31,8 @@ public class PlayerController : MonoBehaviour
   private AnimationCurve directionLineWidthCurveDeselected;
   [SerializeField]
   private ParticleSystem[] movementEffects;
+  [SerializeField]
+  private ParticleSystem playerEffect;
 
   private bool isMoving = false;
   private List<LineRenderer> lineRenderers;
@@ -245,5 +247,13 @@ public class PlayerController : MonoBehaviour
       .SetSpeedBased()
       .SetEase(Ease.Linear)
       .OnComplete(OnTweenComplete);
+  }
+
+  public void Hide() {
+    playerEffect.Stop();
+  }
+
+  public void Show() {
+    playerEffect.Play();
   }
 }

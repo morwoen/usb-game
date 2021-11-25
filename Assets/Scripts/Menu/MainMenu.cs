@@ -1,8 +1,9 @@
 using System.Linq;
-using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using FMODUnity;
+using DG.Tweening;
 
 public class MainMenu : MonoBehaviour
 {
@@ -21,6 +22,7 @@ public class MainMenu : MonoBehaviour
   private StudioEventEmitter backgroundMusic;
 
   private MenuPlayerController player;
+  private bool isTransitioning = false;
 
   private void Awake() {
     player = FindObjectOfType<MenuPlayerController>();
@@ -29,12 +31,22 @@ public class MainMenu : MonoBehaviour
 
     SwitchToMain();
 
+    StartCoroutine(PlayIntro());
+
 #if UNITY_WEBGL
     Destroy(quitButton);
 #endif
   }
 
+  private IEnumerator PlayIntro() {
+    BusAnimationManager bus = FindObjectOfType<BusAnimationManager>();
+    bus.transform.position = new Vector3(-FindObjectOfType<CameraManager>().SizeOfCamera / 2, bus.transform.position.y + 5);
+    yield return new WaitForEndOfFrame();
+    bus.MenuIntro();
+  }
+
   public void GoToNode(MenuNode node) {
+    if (isTransitioning) return;
     MenuNode origin = FindObjectsOfType<MenuNode>().First(n => n.gameObject.activeSelf && n.isRoot);
     player.NavigateBetween(origin.node, node.node);
   }
@@ -76,8 +88,16 @@ public class MainMenu : MonoBehaviour
   }
 
   public void Play() {
-    SceneManager.LoadScene(1);
-    backgroundMusic.SetParameter("inGame", 1);
+    if (isTransitioning) {
+      return;
+    }
+
+    isTransitioning = true;
+    FindObjectOfType<BusAnimationManager>().MenuOnPlayTransition(() => {
+      DOTween.KillAll();
+      backgroundMusic.SetParameter("inGame", 1);
+      SceneManager.LoadScene(1);
+    });
   }
 
   public void Quit() {
