@@ -15,8 +15,14 @@ public class AudioListener : MonoBehaviour
 
     DontDestroyOnLoad(gameObject);
     studioEvent = GetComponent<StudioEventEmitter>();
+
+    float musicVolume = DataManager.GetMusicVolume();
+    float soundVolume = DataManager.GetSoundVolume();
+
     if (!studioEvent.IsPlaying()) {
       studioEvent.Play();
+      studioEvent.SetParameter("MusicVolume", musicVolume);
+      // TODO: Update fmod
     }
   }
 }

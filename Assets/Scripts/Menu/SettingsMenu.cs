@@ -32,10 +32,6 @@ public class SettingsMenu : MonoBehaviour
 
     musicText.text = VolumeToText(musicSlider.value);
     soundText.text = VolumeToText(soundSlider.value);
-
-    backgroundMusic.SetParameter("MusicVolume", musicSlider.value);
-
-    // TODO: Update fmod
   }
 
   private string VolumeToText(float value) {
