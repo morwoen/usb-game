@@ -22,7 +22,7 @@ public class AudioListener : MonoBehaviour
     if (!studioEvent.IsPlaying()) {
       studioEvent.Play();
       studioEvent.SetParameter("MusicVolume", musicVolume);
-      // TODO: Update fmod
+      RuntimeManager.StudioSystem.setParameterByName("SFXVolume", soundVolume);
     }
   }
 }

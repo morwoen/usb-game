@@ -23,7 +23,7 @@ public class SettingsMenu : MonoBehaviour
   private StudioEventEmitter backgroundMusic;
 
   private void Awake() {
-    backgroundMusic = FindObjectOfType<StudioEventEmitter>();
+    backgroundMusic = FindObjectOfType<AudioListener>().GetComponent<StudioEventEmitter>();
     float musicVolume = DataManager.GetMusicVolume();
     float soundVolume = DataManager.GetSoundVolume();
 
@@ -49,7 +49,7 @@ public class SettingsMenu : MonoBehaviour
     soundText.text = VolumeToText(soundSlider.value);
     DataManager.SetSoundVolume(soundSlider.value);
 
-    // TODO: Update fmod
+    RuntimeManager.StudioSystem.setParameterByName("SFXVolume", soundSlider.value);
   }
 
   public void Save() {

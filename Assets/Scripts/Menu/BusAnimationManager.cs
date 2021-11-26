@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using System;
+using FMODUnity;
 
 public class BusAnimationManager : MonoBehaviour
 {
@@ -31,8 +32,11 @@ public class BusAnimationManager : MonoBehaviour
   private Sequence oscillation;
   private Tween intro;
 
+  private StudioEventEmitter sound;
+
   private void Awake() {
     rectTransform = GetComponent<RectTransform>();
+    sound = GetComponent<StudioEventEmitter>();
 
     InvokeRepeating("SwapTyres", spriteSwapSpeed, spriteSwapSpeed);
   }
@@ -48,8 +52,12 @@ public class BusAnimationManager : MonoBehaviour
   }
 
   public void MenuIntro() {
+    RuntimeManager.PlayOneShot("event:/bus-arrive");
+      RuntimeManager.StudioSystem.setParameterByName("SFXVolume", 1);
+    //sound.Play();
     intro = rectTransform.DOAnchorPos(Vector2.zero, 4)
       .OnComplete(() => {
+        //sound.Event = "event:/bus-door";
         oscillation = DOTween.Sequence()
           .Append(rectTransform.DOAnchorPos3DY(-10, 2))
           .Append(rectTransform.DOAnchorPos3DY(0, 2))

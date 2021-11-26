@@ -98,7 +98,7 @@ public class MainMenu : MonoBehaviour
     FindObjectOfType<BusAnimationManager>().MenuOnPlayTransition(() => {
       DOTween.KillAll();
       backgroundMusic.SetParameter("inGame", 1);
-      SceneManager.LoadScene(1);
+      SceneManager.LoadScene(2);
     });
   }
 
