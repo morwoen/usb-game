@@ -38,6 +38,12 @@ public class TransitionManager : MonoBehaviour
     }
 
     text.text = txt;
+
+    bus.GameIntroSetup();
+    Invoke("PlayIntro", 0.1f);
+  }
+
+  private void PlayIntro() {
     ParticleSystemRenderer playerRenderer = FindObjectOfType<PlayerController>().GetComponentInChildren<ParticleSystemRenderer>();
 
     playerRenderer.sortingLayerName = "BusLayer";

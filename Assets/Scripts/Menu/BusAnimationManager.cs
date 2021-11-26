@@ -29,6 +29,7 @@ public class BusAnimationManager : MonoBehaviour
 
   private RectTransform rectTransform;
   private Sequence oscillation;
+  private Tween intro;
 
   private void Awake() {
     rectTransform = GetComponent<RectTransform>();
@@ -47,7 +48,7 @@ public class BusAnimationManager : MonoBehaviour
   }
 
   public void MenuIntro() {
-    rectTransform.DOAnchorPos(Vector2.zero, 4)
+    intro = rectTransform.DOAnchorPos(Vector2.zero, 4)
       .OnComplete(() => {
         oscillation = DOTween.Sequence()
           .Append(rectTransform.DOAnchorPos3DY(-10, 2))
@@ -58,8 +59,12 @@ public class BusAnimationManager : MonoBehaviour
 
   public void MenuOnPlayTransition(Action onComplete) {
     oscillation?.Kill();
+    intro?.Kill();
     CameraManager camManager = FindObjectOfType<CameraManager>();
     MenuPlayerController player = FindObjectOfType<MenuPlayerController>();
+    // Disable the direction indicator
+    player.GetComponentInChildren<SpriteRenderer>().enabled = false;
+
     DOTween.Sequence()
       // Exit the screen to the right
       .Append(transform.DOMove(new Vector3(camManager.SizeOfCamera / 2 + 20, transform.position.y), 1))
@@ -81,11 +86,16 @@ public class BusAnimationManager : MonoBehaviour
       .OnComplete(() => onComplete());
   }
 
-  public Sequence GameIntro() {
+  public void GameIntroSetup() {
     CameraManager camManager = FindObjectOfType<CameraManager>();
     PlayerController player = FindObjectOfType<PlayerController>();
     player.Hide();
     transform.position = new Vector3(-camManager.SizeOfCamera / 2 - 20, transform.position.y);
+  }
+
+  public Sequence GameIntro() {
+    CameraManager camManager = FindObjectOfType<CameraManager>();
+    PlayerController player = FindObjectOfType<PlayerController>();
 
     return DOTween.Sequence()
       // Go to the player location

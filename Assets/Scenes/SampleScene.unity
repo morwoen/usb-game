@@ -912,6 +912,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 442603211063767602, guid: 69f489c2c68109e4fbe38a6ad07393ed, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 29.5
+      objectReference: {fileID: 0}
     - target: {fileID: 442603211392803498, guid: 69f489c2c68109e4fbe38a6ad07393ed, type: 3}
       propertyPath: m_Name
       value: ActionsCanvas

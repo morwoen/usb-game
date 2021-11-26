@@ -55,4 +55,8 @@ public class SettingsMenu : MonoBehaviour
 
     // TODO: Update fmod
   }
+
+  public void Save() {
+    DataManager.Save();
+  }
 }

@@ -70,6 +70,7 @@ public class DataManager : MonoBehaviour
   public static void CompleteMission(Mission mission) {
     Load();
     Instance.progress.CompleteMission(mission);
+    Instance.progress.Save();
   }
 
   public static float GetSoundVolume() {
@@ -90,5 +91,10 @@ public class DataManager : MonoBehaviour
   public static void SetMusicVolume(float value) {
     Load();
     Instance.progress.musicVolume = value;
+  }
+
+  public static void Save() {
+    Load();
+    Instance.progress.Save();
   }
 }
