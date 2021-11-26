@@ -24,6 +24,8 @@ public class MenuPlayerController : PlayerController
     root.SetPosition(new Vector3(rootMenuNode.transform.position.x, rootMenuNode.transform.position.y));
 
     List<Map.Node> nodes = new List<Map.Node>();
+    nodes.Add(root);
+
     menuNodes.Where(n => !n.isRoot).ToList().ForEach(n => {
       Map.Node node = new Map.Node(Map.Node.NodeType.Roomba, 0);
       node.SetPosition(new Vector3(n.transform.position.x, n.transform.position.y));

@@ -29,13 +29,15 @@ public class MainMenu : MonoBehaviour
     backgroundMusic = FindObjectOfType<StudioEventEmitter>();
     backgroundMusic.SetParameter("inGame", 0);
 
+#if UNITY_WEBGL
+    Destroy(quitButton);
+    // The player fails to detect when the object is being destroyed, so instead we trigger this again to reset the map
+    Invoke("SwitchToMain", 0.1f);
+#endif
+
     SwitchToMain();
 
     StartCoroutine(PlayIntro());
-
-#if UNITY_WEBGL
-    Destroy(quitButton);
-#endif
   }
 
   private IEnumerator PlayIntro() {
