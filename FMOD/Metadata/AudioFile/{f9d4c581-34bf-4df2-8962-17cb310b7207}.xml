@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.01.00">
+	<object class="AudioFile" id="{f9d4c581-34bf-4df2-8962-17cb310b7207}">
+		<property name="assetPath">
+			<value>usb-movement.wav</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>15.884625</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{5886dc52-3f25-4cfd-9d09-9176df30fab8}</destination>
+		</relationship>
+	</object>
+</objects>
