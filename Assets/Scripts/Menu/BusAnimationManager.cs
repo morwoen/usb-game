@@ -52,12 +52,11 @@ public class BusAnimationManager : MonoBehaviour
   }
 
   public void MenuIntro() {
-    RuntimeManager.PlayOneShot("event:/bus-arrive");
-      RuntimeManager.StudioSystem.setParameterByName("SFXVolume", 1);
-    //sound.Play();
+    sound.Event = "event:/bus-arrive";
+    sound.Play();
     intro = rectTransform.DOAnchorPos(Vector2.zero, 4)
       .OnComplete(() => {
-        //sound.Event = "event:/bus-door";
+        sound.Stop();
         oscillation = DOTween.Sequence()
           .Append(rectTransform.DOAnchorPos3DY(-10, 2))
           .Append(rectTransform.DOAnchorPos3DY(0, 2))

@@ -3176,7 +3176,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9468c5f457ace64f8d4df6d642b107f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LoadEvent: 0
+  LoadEvent: 1
   UnloadEvent: 0
   Banks:
   - Master
@@ -3624,6 +3624,34 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1266775892}
   m_CullTransparentMesh: 1
+--- !u!1 &1295159750 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3803458539317808083, guid: 1d12ef39d976a9e42839afc5de4a69cf, type: 3}
+  m_PrefabInstance: {fileID: 3803458539923154176}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1295159751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1295159750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  Event: 
+  PlayEvent: 0
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: -1
+  OverrideMaxDistance: -1
 --- !u!1 &1379814821
 GameObject:
   m_ObjectHideFlags: 0
