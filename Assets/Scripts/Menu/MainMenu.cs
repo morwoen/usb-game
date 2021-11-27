@@ -26,7 +26,7 @@ public class MainMenu : MonoBehaviour
 
   private void Awake() {
     player = FindObjectOfType<MenuPlayerController>();
-    backgroundMusic = FindObjectOfType<StudioEventEmitter>();
+    backgroundMusic = FindObjectOfType<AudioListener>().GetComponent<StudioEventEmitter>();
     backgroundMusic.SetParameter("inGame", 0);
 
 #if UNITY_WEBGL

@@ -32,11 +32,11 @@ public class BusAnimationManager : MonoBehaviour
   private Sequence oscillation;
   private Tween intro;
 
-  private StudioEventEmitter sound;
+  private DynamicSoundEventManager soundEventManager;
 
   private void Awake() {
     rectTransform = GetComponent<RectTransform>();
-    sound = GetComponent<StudioEventEmitter>();
+    soundEventManager = GetComponent<DynamicSoundEventManager>();
 
     InvokeRepeating("SwapTyres", spriteSwapSpeed, spriteSwapSpeed);
   }
@@ -52,11 +52,10 @@ public class BusAnimationManager : MonoBehaviour
   }
 
   public void MenuIntro() {
-    sound.Event = "event:/bus-arrive";
-    sound.Play();
+    soundEventManager.PlayEvent("event:/bus-arrive");
     intro = rectTransform.DOAnchorPos(Vector2.zero, 4)
       .OnComplete(() => {
-        sound.Stop();
+        soundEventManager.StopEvent("event:/bus-arrive");
         oscillation = DOTween.Sequence()
           .Append(rectTransform.DOAnchorPos3DY(-10, 2))
           .Append(rectTransform.DOAnchorPos3DY(0, 2))
@@ -71,6 +70,7 @@ public class BusAnimationManager : MonoBehaviour
     MenuPlayerController player = FindObjectOfType<MenuPlayerController>();
     // Disable the direction indicator
     player.GetComponentInChildren<SpriteRenderer>().enabled = false;
+    soundEventManager.PlayEvent("event:/bus-leave");
 
     DOTween.Sequence()
       // Exit the screen to the right
@@ -80,14 +80,27 @@ public class BusAnimationManager : MonoBehaviour
       // Go to the player location
       .Append(transform.DOMove(player.transform.position, 1))
       // Open doors
+      .AppendCallback(() => {
+        soundEventManager.StopEvent("event:/bus-leave");
+        soundEventManager.PlayEvent("event:/bus-door");
+      })
       .Append(doorLeft.DOLocalMoveX(doorLeft.localPosition.x - doorOffset, doorSpeed))
       .Join(doorRight.DOLocalMoveX(doorRight.localPosition.x + doorOffset, doorSpeed))
       // Hide player
       .AppendCallback(() => player.Hide())
+      .AppendInterval(0.2f)
       // Close doors
+      .AppendCallback(() => {
+        soundEventManager.StopEvent("event:/bus-door");
+        soundEventManager.PlayEvent("event:/bus-door");
+      })
       .Append(doorLeft.DOLocalMoveX(doorLeft.localPosition.x, doorSpeed))
       .Join(doorRight.DOLocalMoveX(doorRight.localPosition.x, doorSpeed))
       // Exit the screen
+      .AppendCallback(() => {
+        soundEventManager.StopEvent("event:/bus-door");
+        soundEventManager.PlayEvent("event:/bus-leave");
+      })
       .Append(transform.DOMove(new Vector3(camManager.SizeOfCamera / 2 + 20, transform.position.y), 1))
       // Transition scene
       .OnComplete(() => onComplete());
