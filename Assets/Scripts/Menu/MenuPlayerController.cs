@@ -9,7 +9,7 @@ public class MenuPlayerController : PlayerController
   private bool init = false;
   private float delay = 0.1f;
 
-  private void Awake() {
+  private void Start() {
     this.speed = 60f;
   }
 

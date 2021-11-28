@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,7 +27,10 @@ public class AsyncSoundLoader : MonoBehaviour
     }
 
     // Keep yielding the co-routine until all the Bank loading is done
-    while (FMODUnity.RuntimeManager.AnyBankLoading()) {
+    while (!Banks
+      .Select(bank => FMODUnity.RuntimeManager.HasBankLoaded(bank))
+      .Aggregate(true, (acc, curr) => curr && acc)
+    ) {
       yield return null;
     }
 
@@ -39,6 +43,5 @@ public class AsyncSoundLoader : MonoBehaviour
     while (!async.isDone) {
       yield return null;
     }
-
   }
 }

@@ -9,7 +9,7 @@ public class ProgressMenuPanel : MonoBehaviour
   [SerializeField]
   private MissionDatabase database;
 
-  private void Awake() {
+  private void Start() {
     foreach (Mission mission in database.missions) {
       MenuMissionPanelRenderer renderer = Instantiate(prefab, transform).GetComponent<MenuMissionPanelRenderer>();
       renderer.Render(mission);

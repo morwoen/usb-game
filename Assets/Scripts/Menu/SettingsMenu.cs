@@ -22,7 +22,7 @@ public class SettingsMenu : MonoBehaviour
 
   private StudioEventEmitter backgroundMusic;
 
-  private void Awake() {
+  private void Start() {
     backgroundMusic = FindObjectOfType<AudioListener>().GetComponent<StudioEventEmitter>();
     float musicVolume = DataManager.GetMusicVolume();
     float soundVolume = DataManager.GetSoundVolume();

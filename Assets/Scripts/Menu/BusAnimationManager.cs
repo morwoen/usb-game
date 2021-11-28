@@ -34,7 +34,7 @@ public class BusAnimationManager : MonoBehaviour
 
   private DynamicSoundEventManager soundEventManager;
 
-  private void Awake() {
+  private void Start() {
     rectTransform = GetComponent<RectTransform>();
     soundEventManager = GetComponent<DynamicSoundEventManager>();
 

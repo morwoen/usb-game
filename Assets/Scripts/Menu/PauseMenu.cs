@@ -16,7 +16,7 @@ public class PauseMenu : MonoBehaviour
 
   private bool isPaused = false;
 
-  private void Awake() {
+  private void Start() {
     settingsMenu.SetActive(false);
     settingsMenuBackground.SetActive(false);
     isPaused = true;

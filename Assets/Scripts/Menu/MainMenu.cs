@@ -24,7 +24,7 @@ public class MainMenu : MonoBehaviour
   private MenuPlayerController player;
   private bool isTransitioning = false;
 
-  private void Awake() {
+  private void Start() {
     player = FindObjectOfType<MenuPlayerController>();
     backgroundMusic = FindObjectOfType<AudioListener>().GetComponent<StudioEventEmitter>();
     backgroundMusic.SetParameter("inGame", 0);

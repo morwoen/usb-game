@@ -7,7 +7,7 @@ public class AudioListener : MonoBehaviour
 {
   private StudioEventEmitter studioEvent;
 
-  private void Awake() {
+  private void Start() {
     if (FindObjectsOfType<AudioListener>().Length > 1) {
       Destroy(gameObject);
       return;
