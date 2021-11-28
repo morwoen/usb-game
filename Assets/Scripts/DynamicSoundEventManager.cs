@@ -5,12 +5,20 @@ using FMODUnity;
 
 public class DynamicSoundEventManager : MonoBehaviour
 {
+  [EventRef]
   [SerializeField]
-  List<string> events;
+  private List<string> events;
 
-  Dictionary<string, StudioEventEmitter> eventEmitters = new Dictionary<string, StudioEventEmitter>();
+  private Dictionary<string, StudioEventEmitter> eventEmitters = new Dictionary<string, StudioEventEmitter>();
+  private bool init = false;
 
   private void Awake() {
+    InitEmitters();
+  }
+
+  private void InitEmitters() {
+    if (init) return;
+    init = true;
     events.ForEach(soundEvent => {
       StudioEventEmitter eventEmitter = gameObject.AddComponent<StudioEventEmitter>();
       eventEmitter.Event = soundEvent;
@@ -18,11 +26,18 @@ public class DynamicSoundEventManager : MonoBehaviour
     });
   }
 
+  public bool IsPlaying(string key) {
+    InitEmitters();
+    return eventEmitters[key].IsPlaying();
+  }
+
   public void PlayEvent(string key) {
+    InitEmitters();
     eventEmitters[key].Play();
   }
   
   public void StopEvent(string key) {
+    InitEmitters();
     eventEmitters[key].Stop();
   }
 }

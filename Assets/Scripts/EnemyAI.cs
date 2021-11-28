@@ -2,6 +2,7 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using FMODUnity;
 
 public class EnemyAI : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class EnemyAI : MonoBehaviour
 
   private Tween movement;
   private bool moving = false;
+  private StudioEventEmitter backgroundMusic;
 
   private Map.Node node;
   private Map.Node prevNode;
@@ -34,6 +36,10 @@ public class EnemyAI : MonoBehaviour
         MoveToNextNode();
       }
     }
+  }
+
+  private void Awake() {
+    backgroundMusic = FindObjectOfType<AudioListener>().GetComponent<StudioEventEmitter>();
   }
 
   private void OnDisable() {
@@ -113,10 +119,17 @@ public class EnemyAI : MonoBehaviour
 
     Node = target;
 
+    if (Node.playerIsOnNode) {
+      backgroundMusic.SetParameter("Antivirus", 1);
+    }
+
     movement = transform.DOPath(path, moveSpeed, gizmoColor: Color.red)
       .SetSpeedBased()
       .SetEase(Ease.Linear)
       .SetDelay(waitOnNode)
+      .OnUpdate(() => {
+        backgroundMusic.SetParameter("Antivirus", Node.playerIsOnNode ? 1 : 0);
+      })
       .OnPlay(() => moving = true)
       .OnComplete(MoveToNextNode);
   }

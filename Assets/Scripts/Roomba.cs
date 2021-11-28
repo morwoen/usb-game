@@ -26,6 +26,7 @@ public class Roomba : MonoBehaviour
   private Map.Node node;
   private PlayerController player;
   private SpriteRenderer spriteRenderer;
+  private DynamicSoundEventManager soundManager;
 
   private bool movingRight = true;
 
@@ -52,10 +53,18 @@ public class Roomba : MonoBehaviour
           playerHasMoved = true;
           transform.Translate(Vector3.left * Time.deltaTime * withPlayerSpeed);
           spriteRenderer.sprite = spriteLeft;
+          if (!soundManager.IsPlaying("event:/roomba")) {
+            soundManager.PlayEvent("event:/roomba");
+          }
         } else if (Input.GetKey(KeyCode.D)) {
           playerHasMoved = true;
           transform.Translate(Vector3.right * Time.deltaTime * withPlayerSpeed);
           spriteRenderer.sprite = spriteRight;
+          if (!soundManager.IsPlaying("event:/roomba")) {
+            soundManager.PlayEvent("event:/roomba");
+          }
+        } else {
+          soundManager.StopEvent("event:/roomba");
         }
 
         if (playerHasMoved && canvas.gameObject.activeSelf) {
@@ -83,6 +92,7 @@ public class Roomba : MonoBehaviour
     node = new Map.Node(Map.Node.NodeType.Roomba, level);
     player = FindObjectOfType<PlayerController>();
     spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+    soundManager = GetComponent<DynamicSoundEventManager>();
   }
 
   private void OnTriggerEnter2D(Collider2D collider) {

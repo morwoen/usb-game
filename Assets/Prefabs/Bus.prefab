@@ -29110,6 +29110,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3803458539317808084}
   - component: {fileID: 1715236647}
+  - component: {fileID: 1028802656222703865}
   m_Layer: 5
   m_Name: Bus
   m_TagString: Untagged
@@ -29167,6 +29168,22 @@ MonoBehaviour:
   doorLeft: {fileID: 3803458538225905679}
   doorRight: {fileID: 3803458539788403950}
   doorSpeed: 1
+--- !u!114 &1028802656222703865
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3803458539317808083}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cbad7e212eed9a418105100d143d6ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  events:
+  - event:/bus-arrive
+  - event:/bus-door
+  - event:/bus-leave
 --- !u!1 &3803458539567882304
 GameObject:
   m_ObjectHideFlags: 0

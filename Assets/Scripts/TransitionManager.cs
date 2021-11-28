@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 using DG.Tweening;
+using FMODUnity;
 
 public class TransitionManager : MonoBehaviour
 {
@@ -21,6 +22,7 @@ public class TransitionManager : MonoBehaviour
   private bool initial;
   private Tween currentAnimation;
   private Color textColor = new Color(1, 0.337f, 0.968f);
+  private DynamicSoundEventManager soundManager;
 
   private void Awake() {
     instance = this;
@@ -28,6 +30,7 @@ public class TransitionManager : MonoBehaviour
     initial = true;
     background.color = Color.black;
     text.color = textColor;
+    soundManager = GetComponent<DynamicSoundEventManager>();
 
     MissionManager.ProgressReport progressReport = MissionManager.GetProgressReport();
     string txt = $"There are {progressReport.totalMissions} ways a virus can terminate a company\n";
@@ -97,6 +100,7 @@ public class TransitionManager : MonoBehaviour
   }
 
   private void LoseGame() {
+    soundManager.PlayEvent("event:/death");
     text.text = "You got caught by the Antivirus\nBe more careful next time";
     ShowTransitionAndReload();
   }

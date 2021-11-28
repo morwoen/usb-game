@@ -1,8 +1,4 @@
 using DG.Tweening;
-using DG.Tweening.Core;
-using DG.Tweening.Plugins.Core.PathCore;
-using DG.Tweening.Plugins.Options;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -40,6 +36,7 @@ public class PlayerController : MonoBehaviour
   internal Map map;
   private ActionsRenderer actionsRenderer;
   private Tweener movement;
+  private DynamicSoundEventManager soundManager;
 
   public bool IsMoving {
     get { return isMoving; }
@@ -56,6 +53,7 @@ public class PlayerController : MonoBehaviour
   private void OnEnable() {
     mapRenderer = FindObjectOfType<MapRenderer>();
     actionsRenderer = FindObjectOfType<ActionsRenderer>();
+    soundManager = GetComponent<DynamicSoundEventManager>();
     lineRenderers = GetComponentsInChildren(typeof(LineRenderer))
       .Select(c => (LineRenderer)c)
       .ToList();
@@ -101,8 +99,11 @@ public class PlayerController : MonoBehaviour
           if (key == (int)KeyCode.Alpha1 && networkUndiscovered) {
             FindObjectOfType<TutorialManager>()?.OnInteract();
             // Discover network
+            soundManager.PlayEvent("event:/hacking");
             Interaction.Interact(networkDiscoveryInteractionTime, didComplete => {
+              soundManager.StopEvent("event:/hacking");
               if (didComplete) {
+                soundManager.PlayEvent("event:/hack-done");
                 map.CurrentNode.links.ForEach(node => node.isKnown = true);
                 actionsRenderer.UpdateActions(map);
                 FindObjectOfType<TutorialManager>()?.OnAfterInteract();
@@ -121,8 +122,11 @@ public class PlayerController : MonoBehaviour
   }
 
   private void RunInteraction(Mission.Goal action) {
+    soundManager.PlayEvent("event:/hacking");
     Interaction.Interact(interactionTime, didComplete => {
+      soundManager.StopEvent("event:/hacking");
       if (didComplete) {
+        soundManager.PlayEvent("event:/hack-done");
         MissionManager.Interact(action, map.CurrentNode);
         actionsRenderer.UpdateActions(map);
       }
@@ -219,6 +223,8 @@ public class PlayerController : MonoBehaviour
   }
 
   void OnTweenComplete() {
+    StopMovementSound();
+
     IsMoving = false;
     actionsRenderer?.UpdateActions(map);
 
@@ -238,14 +244,20 @@ public class PlayerController : MonoBehaviour
     }
   }
 
+  void StopMovementSound() {
+    soundManager.StopEvent("event:/movement");
+  }
+
   void Move(Vector3[] path) {
     IsMoving = true;
     FindObjectOfType<TutorialManager>()?.OnMove();
     actionsRenderer?.HideActions();
     movement?.Kill();
+    soundManager.PlayEvent("event:/movement");
     movement = transform.DOPath(path, speed, gizmoColor: Color.red)
       .SetSpeedBased()
       .SetEase(Ease.Linear)
+      .OnKill(StopMovementSound)
       .OnComplete(OnTweenComplete);
   }
 

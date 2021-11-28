@@ -248,6 +248,7 @@ GameObject:
   - component: {fileID: 3327469682044672352}
   - component: {fileID: 3327469682044672354}
   - component: {fileID: 3327469682044672355}
+  - component: {fileID: 4240559116703465474}
   m_Layer: 0
   m_Name: Roomba
   m_TagString: Untagged
@@ -359,6 +360,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 0.5}
   m_EdgeRadius: 0
+--- !u!114 &4240559116703465474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3327469682044672366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cbad7e212eed9a418105100d143d6ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  events:
+  - event:/roomba
 --- !u!1 &3327469682648058629
 GameObject:
   m_ObjectHideFlags: 0
