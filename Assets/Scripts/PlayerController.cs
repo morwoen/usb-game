@@ -172,6 +172,7 @@ public class PlayerController : MonoBehaviour
 
   internal void NavigateBetween(Map.Node origin, Map.Node destination) {
     Interaction.Interrupt();
+    soundManager.PlayEvent("event:/movement");
     Move(Utils.GeneratePath(origin, destination).ToArray());
     map.FollowLink(destination);
   }
@@ -253,7 +254,6 @@ public class PlayerController : MonoBehaviour
     FindObjectOfType<TutorialManager>()?.OnMove();
     actionsRenderer?.HideActions();
     movement?.Kill();
-    soundManager.PlayEvent("event:/movement");
     movement = transform.DOPath(path, speed, gizmoColor: Color.red)
       .SetSpeedBased()
       .SetEase(Ease.Linear)
