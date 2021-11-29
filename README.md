@@ -1,4 +1,4 @@
-# About
+# Universal Serial Bus (USB)
 Universal Serial Bus (USB) is a 2D puzzle game where you play as a little virus that got into the reception desk computer through a USB stick.
 It's up to you to find all the ways you can use the company's network to shut them down.
 Traverse the network, hack IoT devices, snoop data, disturb and fire employees, just be careful of the antivirus that is after you.
