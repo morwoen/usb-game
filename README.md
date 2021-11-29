@@ -5,13 +5,24 @@ Traverse the network, hack IoT devices, snoop data, disturb and fire employees, 
 
 This game is a submition for the <a href="https://itch.io/jam/game-off-2021">Github Game Off 2021</a>
 
+<p align="center">
+  <img src="Recordings/menu.jpg" width="350" title="Menu screenshot">
+  <img src="Recordings/loading.jpg" width="350" alt="Loading screen screenshot">
+  <img src="Recordings/gameplay1.jpg" width="350" alt="Gameplay screenshot">
+  <img src="Recordings/gameplay2.jpg" width="350" alt="Gameplay screenshot">
+</p>
+
 # How to play
 - Use your mouse to select which connection to follow.
 - Prompts will show up on every device, showing you possible interactions triggered by <kbd>1</kbd> - <kbd>9</kbd>.
 - Hacking into a Roomba will allow you to control its movement using <kbd>A</kbd> and <kbd>D</kbd>
 
 # Technology
-The game was built using <a href="https://unity.com/">Unity 2020.3.19f1</a> and <a href="https://www.fmod.com/">FMOD Studio 2.01.08</a>
+The game was built using [Unity 2020.3.19f1](https://unity.com/) and [FMOD Studio 2.01.08](https://www.fmod.com/)
+with the additional help of
+[DOTween](https://assetstore.unity.com/packages/tools/animation/dotween-hotween-v2-27676),
+[48 Particle Effect Pack](https://assetstore.unity.com/packages/vfx/particles/spells/48-particle-effect-pack-13998) and
+[2D Pixel Trees](https://assetstore.unity.com/packages/2d/textures-materials/nature/2d-pixel-trees-63479)
 
 # Credits
 ### Game Design
